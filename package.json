@@ -1,7 +1,7 @@
 {
-  "name": "typescript-library-skeleton",
+  "name": "@speleotica/compass",
   "version": "0.0.0-development",
-  "description": "my personal ES2015 library project skeleton",
+  "description": "Compass Cave Survey data I/O",
   "main": "index.js",
   "sideEffects": false,
   "scripts": {
@@ -30,6 +30,9 @@
     "commitizen": {
       "path": "cz-conventional-changelog"
     }
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "husky": {
     "hooks": {
@@ -69,17 +72,18 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/jedwards1211/typescript-library-skeleton.git"
+    "url": "https://github.com/speleotica/compass.git"
   },
   "keywords": [
-    "typescript"
+    "compass-cave-survey",
+    "cave-survey"
   ],
   "author": "Andy Edwards",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/jedwards1211/typescript-library-skeleton/issues"
+    "url": "https://github.com/speleotica/compass/issues"
   },
-  "homepage": "https://github.com/jedwards1211/typescript-library-skeleton#readme",
+  "homepage": "https://github.com/speleotica/compass#readme",
   "devDependencies": {
     "@babel/cli": "^7.1.5",
     "@babel/core": "^7.1.6",
@@ -119,11 +123,13 @@
     "prettier": "^1.15.2",
     "prettier-eslint": "^8.8.2",
     "rimraf": "^2.6.0",
-    "semantic-release": "^15.1.4",
+    "semantic-release": "^15.13.31",
     "typescript": "^3.7.2"
   },
   "dependencies": {
-    "@babel/runtime": "^7.1.5"
+    "@babel/runtime": "^7.1.5",
+    "@speleotica/unitized": "^1.0.0",
+    "lodash": "^4.17.15"
   },
   "renovate": {
     "extends": [

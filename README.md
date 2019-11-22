@@ -1,31 +1,25 @@
-# typescript-library-skeleton
+# @speleotica/compass
 
-[![CircleCI](https://circleci.com/gh/jedwards1211/typescript-library-skeleton.svg?style=svg)](https://circleci.com/gh/jedwards1211/typescript-library-skeleton)
-[![Coverage Status](https://codecov.io/gh/jedwards1211/typescript-library-skeleton/branch/master/graph/badge.svg)](https://codecov.io/gh/jedwards1211/typescript-library-skeleton)
+[![CircleCI](https://circleci.com/gh/speleotica/compass.svg?style=svg)](https://circleci.com/gh/speleotica/compass)
+[![Coverage Status](https://codecov.io/gh/speleotica/compass/branch/master/graph/badge.svg)](https://codecov.io/gh/speleotica/compass)
 [![semantic-release](https://img.shields.io/badge/%20%20%F0%9F%93%A6%F0%9F%9A%80-semantic--release-e10079.svg)](https://github.com/semantic-release/semantic-release)
 [![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
-[![npm version](https://badge.fury.io/js/typescript-library-skeleton.svg)](https://badge.fury.io/js/typescript-library-skeleton)
+[![npm version](https://badge.fury.io/js/%40speleotica%2Fcompass.svg)](https://badge.fury.io/js/%40speleotica%2Fcompass)
 
-This is my personal skeleton for creating an typescript library npm package. You are welcome to use it.
+Types and I/O methods for Compass Cave Survey data file formats
 
-## Quick start
+Right now this package doesn't contain a parser, just a formatter for output.
+I'm not going to go to much trouble to document it here unless people ask,
+the types are pretty self-explanatory:
 
-```sh
-npx 0-60 clone https://github.com/jedwards1211/typescript-library-skeleton.git
-```
+- [`CompassTrip`](/src/CompassTrip.ts)
+- [`CompassShot`](/src/CompssShot.ts)
 
-## Tools used
+The main output method is
 
-- babel 7
-- typescript
-- mocha
-- chai
-- istanbul
-- nyc
-- eslint
-- prettier
-- husky
-- semantic-release
-- renovate
-- Circle CI
-- Codecov.io
+- [`formatCompassDat`](/src/formatCompassDat.ts)
+
+It takes an object with a `trips: Array<CompassTrip>`, and optionally
+a `write` function. If you don't provide `write`, it will return the
+output as a `string`. Otherwise, it will call `write` with chunks of data,
+so you can pass `write` connected to a file write stream.

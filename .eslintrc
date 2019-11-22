@@ -9,5 +9,9 @@
   "plugins": ["@typescript-eslint/eslint-plugin"],
   "env": {
     "es6": true
+  },
+  "rules": {
+    "@typescript-eslint/member-delimiter-style": 0,
+    "@typescript-eslint/no-explicit-any": 0
   }
 }
