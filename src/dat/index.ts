@@ -13,7 +13,7 @@ import {
   LengthUnit,
   CompassTripHeader,
 } from './CompassTrip'
-import formatCompassDat from './formatCompassDat'
+import formatCompassDatFile from './formatCompassDatFile'
 import formatCompassShot from './formatCompassShot'
 import formatCompassTripHeader from './formatCompassTripHeader'
 
@@ -31,7 +31,7 @@ export {
   InclinationUnit,
   LengthUnit,
   CompassTripHeader,
-  formatCompassDat,
+  formatCompassDatFile,
   formatCompassShot,
   formatCompassTripHeader,
 }

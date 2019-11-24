@@ -10,9 +10,9 @@ import {
   BacksightItem,
   CompassTrip,
 } from './CompassTrip'
-import formatCompassDat from './formatCompassDat'
+import formatCompassDatFile from './formatCompassDatFile'
 
-describe('formatCompassDat', () => {
+describe('formatCompassDatFile', () => {
   it('basic test', () => {
     const trips: Array<CompassTrip> = [
       {
@@ -116,7 +116,7 @@ describe('formatCompassDat', () => {
       },
     ]
 
-    expect(formatCompassDat({ trips })).to.equal(
+    expect(formatCompassDatFile({ trips })).to.equal(
       `SECRET CAVE
 SURVEY NAME: A1-3
 SURVEY DATE: 7 10 1979

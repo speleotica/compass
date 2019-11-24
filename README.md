@@ -12,14 +12,24 @@ Right now this package doesn't contain a parser, just a formatter for output.
 I'm not going to go to much trouble to document it here unless people ask,
 the types are pretty self-explanatory:
 
-- [`CompassTrip`](/src/CompassTrip.ts)
-- [`CompassShot`](/src/CompssShot.ts)
+- [`CompassTrip`](/src/dat/CompassTrip.ts)
+- [`CompassShot`](/src/dat/CompssShot.ts)
+- [`CompassDatFile`](/src/dat/CompssDatFile.ts)
+- [`CompassMakFile`](/src/mak/CompassMakFile.ts)
 
-The main output method is
+## [`formatCompassDatFile`](/src/dat/formatCompassDatFile.ts)
 
-- [`formatCompassDat`](/src/formatCompassDat.ts)
+```js
+import { formatCompassDatFile } from '@speleotica/compass/dat'
+```
 
-It takes an object with a `trips: Array<CompassTrip>`, and optionally
-a `write` function. If you don't provide `write`, it will return the
-output as a `string`. Otherwise, it will call `write` with chunks of data,
-so you can pass `write` connected to a file write stream.
+It takes a `CompassDatFile`, and optionally an options hash with a `write` function.
+If you don't provide `write`, it will return the output as a `string`. Otherwise,
+it will call `write` with chunks of data, so you can pass `write` connected to a
+file write stream.
+
+## [`formatCompassMakFile`](/src/mak/CompassMakFile.ts)
+
+```js
+import { formatCompassMakFile } from '@speleotica/compass/mak'
+```
