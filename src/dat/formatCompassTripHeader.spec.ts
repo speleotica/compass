@@ -11,8 +11,29 @@ import {
   BacksightItem,
   LrudAssociation,
 } from './CompassTrip'
+import { repeat } from 'lodash'
 
 describe('formatCompassTripHeader', () => {
+  it('validates trip name', () => {
+    expect(() =>
+      formatCompassTripHeader({
+        cave: 'SECRET CAVE',
+        name: ' A',
+        date: new Date('July 10 1979'),
+        declination: Angle.degrees(1),
+        azimuthUnit: AzimuthUnit.Degrees,
+        distanceUnit: DistanceUnit.DecimalFeet,
+        lrudUnit: DistanceUnit.DecimalFeet,
+        inclinationUnit: InclinationUnit.Degrees,
+        lrudOrder: [LrudItem.Left, LrudItem.Up, LrudItem.Down, LrudItem.Right],
+        frontsightOrder: [
+          FrontsightItem.Azimuth,
+          FrontsightItem.Inclination,
+          FrontsightItem.Distance,
+        ],
+      })
+    ).to.throw
+  })
   it('minimum format', () => {
     expect(
       formatCompassTripHeader({
@@ -72,7 +93,7 @@ FROM         TO           BEAR    INC     LEN     LEFT    UP      DOWN    RIGHT 
       })
     ).to.equal(`SECRET CAVE\r
 SURVEY NAME: A\r
-SURVEY DATE: 7 10 1979  COMMENT: TEST\r
+SURVEY DATE: 7 10 1979  COMMENT:TEST\r
 SURVEY TEAM:\r
 Dude\r
 DECLINATION: 1.00  FORMAT: QIMGLUDRADLadBT  CORRECTIONS: 3.00 4.00 2.00 CORRECTIONS2: 5.00 6.00\r
@@ -108,7 +129,7 @@ FROM         TO           BEAR    INC     LEN     LEFT    UP      DOWN    RIGHT 
       })
     ).to.equal(`SECRET CAVE\r
 SURVEY NAME: A\r
-SURVEY DATE: 7 10 1979  COMMENT: TEST\r
+SURVEY DATE: 7 10 1979  COMMENT:TEST\r
 SURVEY TEAM:\r
 Dude\r
 DECLINATION: 1.00  FORMAT: QIMGLUDRADLadBT  CORRECTIONS: 1.00 0.00 0.00 CORRECTIONS2: 0.00 2.00\r
@@ -144,9 +165,45 @@ FROM         TO           BEAR    INC     LEN     LEFT    UP      DOWN    RIGHT 
       })
     ).to.equal(`SECRET CAVE\r
 SURVEY NAME: A\r
-SURVEY DATE: 7 10 1979  COMMENT: TEST\r
+SURVEY DATE: 7 10 1979  COMMENT:TEST\r
 SURVEY TEAM:\r
 Dude\r
+DECLINATION: 1.00  FORMAT: QIMWLUDRADLadBT  CORRECTIONS: 0.00 3.28 0.00 CORRECTIONS2: 0.00 6.56\r
+\r
+FROM         TO           BEAR    INC     LEN     LEFT    UP      DOWN    RIGHT   AZM2    INC2    FLAGS COMMENTS\r
+\r
+`)
+  })
+  it('truncates team', () => {
+    expect(
+      formatCompassTripHeader({
+        cave: 'SECRET CAVE',
+        name: 'A',
+        date: new Date('July 10 1979'),
+        comment: 'TEST',
+        team: repeat('Dude', 100),
+        declination: Angle.degrees(1),
+        azimuthUnit: AzimuthUnit.Quads,
+        distanceUnit: DistanceUnit.FeetAndInches,
+        lrudUnit: DistanceUnit.Meters,
+        inclinationUnit: InclinationUnit.DepthGauge,
+        lrudOrder: [LrudItem.Left, LrudItem.Up, LrudItem.Down, LrudItem.Right],
+        frontsightOrder: [
+          FrontsightItem.Azimuth,
+          FrontsightItem.Inclination,
+          FrontsightItem.Distance,
+        ],
+        backsightOrder: [BacksightItem.Azimuth, BacksightItem.Inclination],
+        hasRedundantBacksights: true,
+        lrudAssociation: LrudAssociation.ToStation,
+        frontsightInclinationCorrection: Length.meters(1),
+        backsightInclinationCorrection: Length.meters(2),
+      })
+    ).to.equal(`SECRET CAVE\r
+SURVEY NAME: A\r
+SURVEY DATE: 7 10 1979  COMMENT:TEST\r
+SURVEY TEAM:\r
+${repeat('Dude', 50).substring(0, 100)}\r
 DECLINATION: 1.00  FORMAT: QIMWLUDRADLadBT  CORRECTIONS: 0.00 3.28 0.00 CORRECTIONS2: 0.00 6.56\r
 \r
 FROM         TO           BEAR    INC     LEN     LEFT    UP      DOWN    RIGHT   AZM2    INC2    FLAGS COMMENTS\r

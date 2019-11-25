@@ -1,5 +1,6 @@
 import { CompassMakDirectiveType } from './CompassMakDirective'
 import { UnitizedNumber, Length } from '@speleotica/unitized'
+import { assertValidStationName } from '../isValidStationName'
 
 export type CompassLinkStation = {
   station: string
@@ -14,6 +15,7 @@ export function formatCompassLinkStation({
   station,
   location,
 }: CompassLinkStation): string {
+  assertValidStationName(station)
   if (!location) return station
   const { easting, northing, elevation } = location
   const unit = easting.unit === Length.feet ? Length.feet : Length.meters

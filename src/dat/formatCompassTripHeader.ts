@@ -7,6 +7,7 @@ import {
   InclinationUnit,
 } from './CompassTrip'
 import { Angle, Length, UnitType } from '@speleotica/unitized'
+import { assertValidStationName } from '../isValidStationName'
 
 const frontsightHeaders = {
   [FrontsightItem.Distance]: 'LEN     ',
@@ -50,6 +51,7 @@ export default function formatCompassTripHeader<
   backsightAzimuthCorrection,
   backsightInclinationCorrection,
 }: CompassTripHeader<Inc>): string {
+  assertValidStationName(name)
   const formatItems: Array<string> = [
     azimuthUnit,
     distanceUnit,
@@ -110,13 +112,13 @@ export default function formatCompassTripHeader<
           .map(n => n.toFixed(2))
           .join(' ')
       : ''
-  return `${cave}\r
+  return `${cave.substring(0, 80)}\r
 SURVEY NAME: ${name.substring(0, 12)}\r
 SURVEY DATE: ${date.getMonth() + 1} ${date.getDate()} ${date.getFullYear()}${
-    comment ? `  COMMENT: ${comment.substring(0, 80)}` : ''
+    comment ? `  COMMENT:${comment}` : ''
   }\r
 SURVEY TEAM:\r
-${team || ''}\r
+${(team || '').slice(0, 100)}\r
 DECLINATION: ${declination.get(Angle.degrees).toFixed(2)}  FORMAT: ${format}${
     corrections
       ? `  CORRECTIONS: ${corrections}${

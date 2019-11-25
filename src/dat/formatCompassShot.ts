@@ -13,6 +13,7 @@ import {
   Angle,
   Length,
 } from '@speleotica/unitized'
+import { assertValidStationName } from '../isValidStationName'
 
 function cell(s: string, width: number): string {
   if (s.length >= width) s = s.slice(0, width - 1)
@@ -57,6 +58,8 @@ const formatCompassShot = <Inc extends UnitType<Inc> = Angle>({
   doNotAdjust,
   comment,
 }: CompassShot<Inc>): string => {
+  assertValidStationName(from)
+  assertValidStationName(to)
   const incUnit = (inclinationUnit === InclinationUnit.DepthGauge
     ? Length.feet
     : Angle.degrees) as any
