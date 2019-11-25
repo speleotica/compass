@@ -12,7 +12,7 @@ export type CompassShot<Inc extends UnitType<Inc> = Angle> = {
   right?: UnitizedNumber<Length> | null
   up?: UnitizedNumber<Length> | null
   down?: UnitizedNumber<Length> | null
-  excludeLength?: boolean | null
+  excludeDistance?: boolean | null
   excludeFromPlotting?: boolean | null
   excludeFromAllProcessing?: boolean | null
   doNotAdjust?: boolean | null

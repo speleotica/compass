@@ -10,7 +10,7 @@ import {
   LrudAssociation,
   AzimuthUnit,
   InclinationUnit,
-  LengthUnit,
+  DistanceUnit,
   CompassTripHeader,
 } from './CompassTrip'
 import { CompassDatFile } from './CompassDatFile'
@@ -31,7 +31,7 @@ export {
   LrudAssociation,
   AzimuthUnit,
   InclinationUnit,
-  LengthUnit,
+  DistanceUnit,
   CompassTripHeader,
   formatCompassDatFile,
   formatCompassShot,

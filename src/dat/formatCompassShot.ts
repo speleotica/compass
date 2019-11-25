@@ -28,7 +28,7 @@ function formatNumber<T extends UnitType<T>>(
 }
 
 export const flagChars = {
-  excludeLength: 'L',
+  excludeDistance: 'L',
   excludeFromPlotting: 'P',
   excludeFromAllProcessing: 'X',
   doNotAdjust: 'C',
@@ -51,7 +51,7 @@ const formatCompassShot = <Inc extends UnitType<Inc> = Angle>({
   right,
   up,
   down,
-  excludeLength,
+  excludeDistance,
   excludeFromPlotting,
   excludeFromAllProcessing,
   doNotAdjust,
@@ -105,7 +105,7 @@ const formatCompassShot = <Inc extends UnitType<Inc> = Angle>({
     )
   }
   let flags = ''
-  if (excludeLength) flags += flagChars.excludeLength
+  if (excludeDistance) flags += flagChars.excludeDistance
   if (excludeFromPlotting) flags += flagChars.excludeFromPlotting
   if (excludeFromAllProcessing) flags += flagChars.excludeFromAllProcessing
   if (doNotAdjust) flags += flagChars.doNotAdjust

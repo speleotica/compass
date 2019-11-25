@@ -3,7 +3,7 @@ import { expect } from 'chai'
 import { Angle, Length } from '@speleotica/unitized'
 import {
   AzimuthUnit,
-  LengthUnit,
+  DistanceUnit,
   InclinationUnit,
   LrudItem,
   FrontsightItem,
@@ -22,8 +22,8 @@ describe('formatCompassDatFile', () => {
           date: new Date('July 10 1979'),
           declination: Angle.degrees(1),
           azimuthUnit: AzimuthUnit.Degrees,
-          distanceUnit: LengthUnit.DecimalFeet,
-          lrudUnit: LengthUnit.DecimalFeet,
+          distanceUnit: DistanceUnit.DecimalFeet,
+          lrudUnit: DistanceUnit.DecimalFeet,
           inclinationUnit: InclinationUnit.Degrees,
           lrudOrder: [
             LrudItem.Left,
@@ -70,8 +70,8 @@ describe('formatCompassDatFile', () => {
           date: new Date('Aug 3 1989'),
           declination: Angle.degrees(1),
           azimuthUnit: AzimuthUnit.Degrees,
-          distanceUnit: LengthUnit.DecimalFeet,
-          lrudUnit: LengthUnit.DecimalFeet,
+          distanceUnit: DistanceUnit.DecimalFeet,
+          lrudUnit: DistanceUnit.DecimalFeet,
           inclinationUnit: InclinationUnit.Degrees,
           team: 'Dudes',
           lrudOrder: [
@@ -109,7 +109,7 @@ describe('formatCompassDatFile', () => {
             backsightInclination: Angle.degrees(-8),
             down: Length.feet(1),
             up: Length.feet(2),
-            excludeLength: true,
+            excludeDistance: true,
             comment: 'test',
           },
         ],

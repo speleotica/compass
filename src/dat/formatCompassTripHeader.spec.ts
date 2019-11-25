@@ -4,7 +4,7 @@ import formatCompassTripHeader from './formatCompassTripHeader'
 import { Angle, Length } from '@speleotica/unitized'
 import {
   AzimuthUnit,
-  LengthUnit,
+  DistanceUnit,
   InclinationUnit,
   LrudItem,
   FrontsightItem,
@@ -21,8 +21,8 @@ describe('formatCompassTripHeader', () => {
         date: new Date('July 10 1979'),
         declination: Angle.degrees(1),
         azimuthUnit: AzimuthUnit.Degrees,
-        distanceUnit: LengthUnit.DecimalFeet,
-        lrudUnit: LengthUnit.DecimalFeet,
+        distanceUnit: DistanceUnit.DecimalFeet,
+        lrudUnit: DistanceUnit.DecimalFeet,
         inclinationUnit: InclinationUnit.Degrees,
         lrudOrder: [LrudItem.Left, LrudItem.Up, LrudItem.Down, LrudItem.Right],
         frontsightOrder: [
@@ -52,8 +52,8 @@ FROM         TO           BEAR    INC     LEN     LEFT    UP      DOWN    RIGHT 
         team: 'Dude',
         declination: Angle.degrees(1),
         azimuthUnit: AzimuthUnit.Quads,
-        distanceUnit: LengthUnit.FeetAndInches,
-        lrudUnit: LengthUnit.Meters,
+        distanceUnit: DistanceUnit.FeetAndInches,
+        lrudUnit: DistanceUnit.Meters,
         inclinationUnit: InclinationUnit.PercentGrade,
         lrudOrder: [LrudItem.Left, LrudItem.Up, LrudItem.Down, LrudItem.Right],
         frontsightOrder: [
@@ -91,8 +91,8 @@ FROM         TO           BEAR    INC     LEN     LEFT    UP      DOWN    RIGHT 
         team: 'Dude',
         declination: Angle.degrees(1),
         azimuthUnit: AzimuthUnit.Quads,
-        distanceUnit: LengthUnit.FeetAndInches,
-        lrudUnit: LengthUnit.Meters,
+        distanceUnit: DistanceUnit.FeetAndInches,
+        lrudUnit: DistanceUnit.Meters,
         inclinationUnit: InclinationUnit.PercentGrade,
         lrudOrder: [LrudItem.Left, LrudItem.Up, LrudItem.Down, LrudItem.Right],
         frontsightOrder: [
@@ -127,8 +127,8 @@ FROM         TO           BEAR    INC     LEN     LEFT    UP      DOWN    RIGHT 
         team: 'Dude',
         declination: Angle.degrees(1),
         azimuthUnit: AzimuthUnit.Quads,
-        distanceUnit: LengthUnit.FeetAndInches,
-        lrudUnit: LengthUnit.Meters,
+        distanceUnit: DistanceUnit.FeetAndInches,
+        lrudUnit: DistanceUnit.Meters,
         inclinationUnit: InclinationUnit.DepthGauge,
         lrudOrder: [LrudItem.Left, LrudItem.Up, LrudItem.Down, LrudItem.Right],
         frontsightOrder: [

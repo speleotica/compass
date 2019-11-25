@@ -40,7 +40,7 @@ export enum InclinationUnit {
   Gradians = 'R',
   DepthGauge = 'W',
 }
-export enum LengthUnit {
+export enum DistanceUnit {
   DecimalFeet = 'D',
   FeetAndInches = 'I',
   Meters = 'M',
@@ -54,8 +54,8 @@ export type CompassTripHeader<Inc extends UnitType<Inc> = Angle> = {
   team?: string | null
   declination: UnitizedNumber<Angle>
   azimuthUnit: AzimuthUnit
-  distanceUnit: LengthUnit
-  lrudUnit: LengthUnit
+  distanceUnit: DistanceUnit
+  lrudUnit: DistanceUnit
   inclinationUnit: InclinationUnit
   lrudOrder: LrudOrder
   frontsightOrder: FrontsightOrder
