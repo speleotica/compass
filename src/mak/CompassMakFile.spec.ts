@@ -1,76 +1,48 @@
 import { describe, it } from 'mocha'
 import { expect } from 'chai'
-import { formatCompassMakFile, CompassMakDirectiveType } from './index'
+import { formatCompassMakFile } from './CompassMakFile'
 import { Length, Angle } from '@speleotica/unitized'
 import { LrudAssociation } from './CompassFileParametersDirective'
+import * as directives from './directives'
 
 describe('formatCompassMakFile', function() {
   it('works', function() {
     expect(
       formatCompassMakFile({
         directives: [
-          {
-            type: CompassMakDirectiveType.BaseLocation,
-            utmEasting: Length.feet(100),
-            utmNorthing: Length.meters(200),
-            elevation: Length.meters(300),
-            utmZone: 13,
-            utmConvergenceAngle: Angle.gradians(50),
-          },
-          {
-            type: CompassMakDirectiveType.Datum,
-            datum: 'WGS 1984',
-          },
-          {
-            type: CompassMakDirectiveType.UtmConvergenceAngle,
-            utmConvergenceAngle: Angle.degrees(2),
-          },
-          {
-            type: CompassMakDirectiveType.UtmZone,
-            utmZone: 14,
-          },
-          {
-            type: CompassMakDirectiveType.FileParameters,
-            overrideLrudAssociations: true,
-            lrudAssociation: LrudAssociation.FromStation,
-          },
-          {
-            type: CompassMakDirectiveType.FileParameters,
-            overrideLrudAssociations: false,
-            lrudAssociation: LrudAssociation.ToStation,
-          },
-          {
-            type: CompassMakDirectiveType.DatFile,
-            file: 'Foo.dat',
-          },
-          {
-            type: CompassMakDirectiveType.DatFile,
-            file: 'Bar.dat',
-            linkStations: [{ station: 'A1' }],
-          },
-          {
-            type: CompassMakDirectiveType.DatFile,
-            file: 'Baz.dat',
-            linkStations: [
-              { station: 'A1' },
-              {
-                station: 'A2',
-                location: {
-                  easting: Length.feet(23),
-                  northing: Length.feet(83),
-                  elevation: Length.feet(2),
-                },
+          directives.baseLocation(
+            Length.feet(100),
+            Length.meters(200),
+            Length.meters(300),
+            13,
+            Angle.gradians(50)
+          ),
+          directives.datum('WGS 1984'),
+          directives.utmConvergenceAngle(Angle.degrees(2)),
+          directives.utmZone(14),
+          directives.fileParameters(true, LrudAssociation.FromStation),
+          directives.fileParameters(false, LrudAssociation.ToStation),
+          directives.datFile('Foo.dat'),
+          directives.datFile('Bar.dat', [{ station: 'A1' }]),
+          directives.datFile('Baz.dat', [
+            { station: 'A1' },
+            {
+              station: 'A2',
+              location: {
+                easting: Length.feet(23),
+                northing: Length.feet(83),
+                elevation: Length.feet(2),
               },
-              {
-                station: 'A3',
-                location: {
-                  easting: Length.meters(23),
-                  northing: Length.feet(83),
-                  elevation: Length.feet(2),
-                },
+            },
+            {
+              station: 'A3',
+              location: {
+                easting: Length.meters(23),
+                northing: Length.feet(83),
+                elevation: Length.feet(2),
               },
-            ],
-          },
+            },
+          ]),
         ],
       })
     ).to.equal(

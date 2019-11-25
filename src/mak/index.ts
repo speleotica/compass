@@ -12,6 +12,7 @@ import {
 } from './CompassMakDirective'
 import { CompassUtmZoneDirective } from './CompassUtmZoneDirective'
 import { CompassUtmConvergenceAngleDirective } from './CompassUtmCovergenceAngleDirective'
+import * as directives from './directives'
 
 export {
   CompassMakFile,
@@ -25,4 +26,5 @@ export {
   CompassUtmZoneDirective,
   CompassLinkStation,
   formatCompassMakFile,
+  directives,
 }
