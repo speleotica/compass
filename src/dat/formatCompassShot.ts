@@ -113,7 +113,14 @@ const formatCompassShot = <Inc extends UnitType<Inc> = Angle>({
   if (excludeFromAllProcessing) flags += flagChars.excludeFromAllProcessing
   if (doNotAdjust) flags += flagChars.doNotAdjust
   if (flags) cols.push(` #|${flags}#`)
-  if (comment) cols.push(' ' + comment.slice(0, 80))
+  if (comment)
+    cols.push(
+      ' ' +
+        comment
+          .replace(/\r\n?|\n/gm, ' ')
+          .trim()
+          .slice(0, 80)
+    )
   cols.push('\r\n')
   return cols.join('')
 }

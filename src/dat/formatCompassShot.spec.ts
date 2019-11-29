@@ -235,4 +235,44 @@ describe('formatCompassShot', () => {
       `          foo          bar   45.00  -10.00    3.28    1.00    2.00 -999.00 -999.00   30.00   -8.00 #|LPXC# foo bar baz qux\r\n`
     )
   })
+  it('multiline input comment', () => {
+    const actual = formatCompassShot({
+      cave: 'SECRET CAVE',
+      name: 'A',
+      date: new Date('July 10 1979'),
+      declination: Angle.degrees(1),
+      azimuthUnit: AzimuthUnit.Degrees,
+      distanceUnit: DistanceUnit.DecimalFeet,
+      lrudUnit: DistanceUnit.DecimalFeet,
+      inclinationUnit: InclinationUnit.Degrees,
+      lrudOrder: [LrudItem.Left, LrudItem.Up, LrudItem.Down, LrudItem.Right],
+      frontsightOrder: [
+        FrontsightItem.Azimuth,
+        FrontsightItem.Inclination,
+        FrontsightItem.Distance,
+      ],
+      backsightOrder: [BacksightItem.Azimuth, BacksightItem.Inclination],
+    })({
+      from: 'foo',
+      to: 'bar',
+      distance: Length.meters(1),
+      frontsightAzimuth: Angle.gradians(50),
+      frontsightInclination: Angle.degrees(-10),
+      backsightAzimuth: Angle.degrees(30),
+      backsightInclination: Angle.degrees(-8),
+      left: Length.feet(1),
+      up: Length.feet(2),
+      excludeDistance: true,
+      excludeFromPlotting: true,
+      excludeFromAllProcessing: true,
+      doNotAdjust: true,
+      comment: `foo\r
+bar
+baz\r
+qux`,
+    })
+    expect(actual).to.equal(
+      `          foo          bar   45.00  -10.00    3.28    1.00    2.00 -999.00 -999.00   30.00   -8.00 #|LPXC# foo bar baz qux\r\n`
+    )
+  })
 })
