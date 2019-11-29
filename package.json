@@ -4,6 +4,9 @@
   "description": "Compass Cave Survey data I/O",
   "main": "index.js",
   "sideEffects": false,
+  "engines": {
+    "node": ">=12"
+  },
   "scripts": {
     "lint": "eslint $npm_package_config_lint",
     "lint:fix": "eslint $npm_package_config_lint",

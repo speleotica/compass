@@ -34,6 +34,11 @@ file write stream.
 import { formatCompassMakFile } from '@speleotica/compass/mak'
 ```
 
+It takes a `CompassMakFile`, and optionally an options hash with a `write` function.
+If you don't provide `write`, it will return the output as a `string`. Otherwise,
+it will call `write` with chunks of data, so you can pass `write` connected to a
+file write stream.
+
 # Node API
 
 ## `writeCompassDatFile(file: string, data: CompassDatFile): Promise<void>`

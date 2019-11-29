@@ -1,5 +1,5 @@
 import formatCompassDatFile from '../dat/formatCompassDatFile'
-import { formatCompassMakFile, CompassMakFile } from '../mak/CompassMakFile'
+import { formatCompassMakFile } from '../mak/CompassMakFile'
 import { promisify } from 'util'
 import fs from 'fs'
 
@@ -12,9 +12,4 @@ const convert = <D>(
 }
 
 export const writeCompassDatFile = convert(formatCompassDatFile)
-export const writeCompassMakFile = async (
-  file: string,
-  mak: CompassMakFile
-): Promise<void> => {
-  await promisify(fs.writeFile)(file, formatCompassMakFile(mak), 'ASCII')
-}
+export const writeCompassMakFile = convert(formatCompassMakFile)
