@@ -33,3 +33,21 @@ file write stream.
 ```js
 import { formatCompassMakFile } from '@speleotica/compass/mak'
 ```
+
+# Node API
+
+## `writeCompassDatFile(file: string, data: CompassDatFile): Promise<void>`
+
+```js
+import { writeCompassDatFile } from '@speleotica/compass/node'
+```
+
+Writes Compass survey data to the given file.
+
+## `writeCompassMakFile(file: string, data: CompassMakFile): Promise<void>`
+
+```js
+import { writeCompassMakFile } from '@speleotica/compass/node'
+```
+
+Writes Compass project data to the given file.

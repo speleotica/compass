@@ -5,7 +5,10 @@ import {
   CompassLinkStation,
 } from './CompassDatFileDirective'
 import { CompassDatumDirective } from './CompassDatumDirective'
-import { CompassFileParametersDirective } from './CompassFileParametersDirective'
+import {
+  CompassFileParametersDirective,
+  LrudAssociation,
+} from './CompassFileParametersDirective'
 import {
   CompassMakDirective,
   CompassMakDirectiveType,
@@ -25,6 +28,7 @@ export {
   CompassUtmConvergenceAngleDirective,
   CompassUtmZoneDirective,
   CompassLinkStation,
+  LrudAssociation,
   formatCompassMakFile,
   directives,
 }
