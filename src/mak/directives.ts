@@ -1,4 +1,4 @@
-import { UnitizedNumber, Length, Angle } from '@speleotica/unitized'
+import { UnitizedNumber, Length, Angle, Unitize } from '@speleotica/unitized'
 import { CompassBaseLocationDirective } from './CompassBaseLocationDirecive'
 import { CompassMakDirectiveType } from './CompassMakDirective'
 import {
@@ -18,7 +18,7 @@ export function baseLocation(
   utmNorthing: UnitizedNumber<Length>,
   elevation: UnitizedNumber<Length>,
   utmZone: number,
-  utmConvergenceAngle: UnitizedNumber<Angle> = Angle.degrees(0)
+  utmConvergenceAngle: UnitizedNumber<Angle> = Unitize.degrees(0)
 ): CompassBaseLocationDirective {
   return {
     type: CompassMakDirectiveType.BaseLocation,

@@ -6,7 +6,7 @@ import {
   LrudItem,
   InclinationUnit,
 } from './CompassTrip'
-import { Angle, Length, UnitType } from '@speleotica/unitized'
+import { Angle, Length, UnitType, Unitize } from '@speleotica/unitized'
 import { assertValidStationName } from '../isValidStationName'
 
 const frontsightHeaders = {
@@ -96,9 +96,11 @@ export default function formatCompassTripHeader<
     backsightAzimuthCorrection ||
     backsightInclinationCorrection
       ? [
-          (frontsightAzimuthCorrection || Angle.degrees(0)).get(Angle.degrees),
-          (frontsightInclinationCorrection || Angle.degrees(0)).get(incUnit),
-          (distanceCorrection || Length.feet(0)).get(Length.feet),
+          (frontsightAzimuthCorrection || Unitize.degrees(0)).get(
+            Angle.degrees
+          ),
+          (frontsightInclinationCorrection || Unitize.degrees(0)).get(incUnit),
+          (distanceCorrection || Unitize.feet(0)).get(Length.feet),
         ]
           .map(n => n.toFixed(2))
           .join(' ')
@@ -106,8 +108,8 @@ export default function formatCompassTripHeader<
   const corrections2 =
     backsightAzimuthCorrection || backsightInclinationCorrection
       ? [
-          (backsightAzimuthCorrection || Angle.degrees(0)).get(Angle.degrees),
-          (backsightInclinationCorrection || Angle.degrees(0)).get(incUnit),
+          (backsightAzimuthCorrection || Unitize.degrees(0)).get(Angle.degrees),
+          (backsightInclinationCorrection || Unitize.degrees(0)).get(incUnit),
         ]
           .map(n => n.toFixed(2))
           .join(' ')

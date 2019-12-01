@@ -131,7 +131,7 @@
   },
   "dependencies": {
     "@babel/runtime": "^7.1.5",
-    "@speleotica/unitized": "^1.0.0",
+    "@speleotica/unitized": "^2.0.0",
     "lodash": "^4.17.15"
   },
   "renovate": {

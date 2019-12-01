@@ -1134,10 +1134,10 @@
     into-stream "^4.0.0"
     lodash "^4.17.4"
 
-"@speleotica/unitized@^1.0.0":
-  version "1.0.2"
-  resolved "https://registry.yarnpkg.com/@speleotica/unitized/-/unitized-1.0.2.tgz#040077602c1255a062fa72d30aa3fad27d4274a3"
-  integrity sha512-iMQZTb+8aOgdJfebSSAVoDqOPVI2QtgwVam9AgnJhWFpKtfmrqbH0GZfLP+++Ecc3TjRX3KCRlQh/HmTAEUzZw==
+"@speleotica/unitized@^2.0.0":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@speleotica/unitized/-/unitized-2.0.0.tgz#a653225b9f30ae6eefb416d06303b06774e27302"
+  integrity sha512-AqAMxM/j5zB01XI2RGiElJWE1ziljqSeubPsxw8ef57Dym5ONQO12gnZYfWI6gUE/2po26QPxlHhc9jaPv93+w==
   dependencies:
     "@babel/plugin-proposal-nullish-coalescing-operator" "^7.4.4"
     "@babel/plugin-proposal-optional-chaining" "^7.6.0"

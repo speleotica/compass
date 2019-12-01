@@ -1,7 +1,7 @@
 import { describe, it } from 'mocha'
 import { expect } from 'chai'
 import formatCompassTripHeader from './formatCompassTripHeader'
-import { Angle, Length } from '@speleotica/unitized'
+import { Unitize } from '@speleotica/unitized'
 import {
   AzimuthUnit,
   DistanceUnit,
@@ -20,7 +20,7 @@ describe('formatCompassTripHeader', () => {
         cave: 'SECRET CAVE',
         name: ' A',
         date: new Date('July 10 1979'),
-        declination: Angle.degrees(1),
+        declination: Unitize.degrees(1),
         azimuthUnit: AzimuthUnit.Degrees,
         distanceUnit: DistanceUnit.DecimalFeet,
         lrudUnit: DistanceUnit.DecimalFeet,
@@ -40,7 +40,7 @@ describe('formatCompassTripHeader', () => {
         cave: 'SECRET CAVE',
         name: 'A',
         date: new Date('July 10 1979'),
-        declination: Angle.degrees(1),
+        declination: Unitize.degrees(1),
         azimuthUnit: AzimuthUnit.Degrees,
         distanceUnit: DistanceUnit.DecimalFeet,
         lrudUnit: DistanceUnit.DecimalFeet,
@@ -71,7 +71,7 @@ FROM         TO           BEAR    INC     LEN     LEFT    UP      DOWN    RIGHT 
         date: new Date('July 10 1979'),
         comment: 'TEST',
         team: 'Dude',
-        declination: Angle.degrees(1),
+        declination: Unitize.degrees(1),
         azimuthUnit: AzimuthUnit.Quads,
         distanceUnit: DistanceUnit.FeetAndInches,
         lrudUnit: DistanceUnit.Meters,
@@ -85,11 +85,11 @@ FROM         TO           BEAR    INC     LEN     LEFT    UP      DOWN    RIGHT 
         backsightOrder: [BacksightItem.Azimuth, BacksightItem.Inclination],
         hasRedundantBacksights: true,
         lrudAssociation: LrudAssociation.ToStation,
-        distanceCorrection: Length.feet(2),
-        frontsightAzimuthCorrection: Angle.degrees(3),
-        frontsightInclinationCorrection: Angle.degrees(4),
-        backsightAzimuthCorrection: Angle.degrees(5),
-        backsightInclinationCorrection: Angle.degrees(6),
+        distanceCorrection: Unitize.feet(2),
+        frontsightAzimuthCorrection: Unitize.degrees(3),
+        frontsightInclinationCorrection: Unitize.degrees(4),
+        backsightAzimuthCorrection: Unitize.degrees(5),
+        backsightInclinationCorrection: Unitize.degrees(6),
       })
     ).to.equal(`SECRET CAVE\r
 SURVEY NAME: A\r
@@ -110,7 +110,7 @@ FROM         TO           BEAR    INC     LEN     LEFT    UP      DOWN    RIGHT 
         date: new Date('July 10 1979'),
         comment: 'TEST',
         team: 'Dude',
-        declination: Angle.degrees(1),
+        declination: Unitize.degrees(1),
         azimuthUnit: AzimuthUnit.Quads,
         distanceUnit: DistanceUnit.FeetAndInches,
         lrudUnit: DistanceUnit.Meters,
@@ -124,8 +124,8 @@ FROM         TO           BEAR    INC     LEN     LEFT    UP      DOWN    RIGHT 
         backsightOrder: [BacksightItem.Azimuth, BacksightItem.Inclination],
         hasRedundantBacksights: true,
         lrudAssociation: LrudAssociation.ToStation,
-        frontsightAzimuthCorrection: Angle.degrees(1),
-        backsightInclinationCorrection: Angle.degrees(2),
+        frontsightAzimuthCorrection: Unitize.degrees(1),
+        backsightInclinationCorrection: Unitize.degrees(2),
       })
     ).to.equal(`SECRET CAVE\r
 SURVEY NAME: A\r
@@ -146,7 +146,7 @@ FROM         TO           BEAR    INC     LEN     LEFT    UP      DOWN    RIGHT 
         date: new Date('July 10 1979'),
         comment: 'TEST',
         team: 'Dude',
-        declination: Angle.degrees(1),
+        declination: Unitize.degrees(1),
         azimuthUnit: AzimuthUnit.Quads,
         distanceUnit: DistanceUnit.FeetAndInches,
         lrudUnit: DistanceUnit.Meters,
@@ -160,8 +160,8 @@ FROM         TO           BEAR    INC     LEN     LEFT    UP      DOWN    RIGHT 
         backsightOrder: [BacksightItem.Azimuth, BacksightItem.Inclination],
         hasRedundantBacksights: true,
         lrudAssociation: LrudAssociation.ToStation,
-        frontsightInclinationCorrection: Length.meters(1),
-        backsightInclinationCorrection: Length.meters(2),
+        frontsightInclinationCorrection: Unitize.meters(1),
+        backsightInclinationCorrection: Unitize.meters(2),
       })
     ).to.equal(`SECRET CAVE\r
 SURVEY NAME: A\r
@@ -182,7 +182,7 @@ FROM         TO           BEAR    INC     LEN     LEFT    UP      DOWN    RIGHT 
         date: new Date('July 10 1979'),
         comment: 'TEST',
         team: repeat('Dude', 100),
-        declination: Angle.degrees(1),
+        declination: Unitize.degrees(1),
         azimuthUnit: AzimuthUnit.Quads,
         distanceUnit: DistanceUnit.FeetAndInches,
         lrudUnit: DistanceUnit.Meters,
@@ -196,8 +196,8 @@ FROM         TO           BEAR    INC     LEN     LEFT    UP      DOWN    RIGHT 
         backsightOrder: [BacksightItem.Azimuth, BacksightItem.Inclination],
         hasRedundantBacksights: true,
         lrudAssociation: LrudAssociation.ToStation,
-        frontsightInclinationCorrection: Length.meters(1),
-        backsightInclinationCorrection: Length.meters(2),
+        frontsightInclinationCorrection: Unitize.meters(1),
+        backsightInclinationCorrection: Unitize.meters(2),
       })
     ).to.equal(`SECRET CAVE\r
 SURVEY NAME: A\r

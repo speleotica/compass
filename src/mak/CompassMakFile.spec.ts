@@ -1,7 +1,7 @@
 import { describe, it } from 'mocha'
 import { expect } from 'chai'
 import { formatCompassMakFile } from './CompassMakFile'
-import { Length, Angle } from '@speleotica/unitized'
+import { Unitize } from '@speleotica/unitized'
 import { LrudAssociation } from './CompassFileParametersDirective'
 import * as directives from './directives'
 
@@ -11,14 +11,14 @@ describe('formatCompassMakFile', function() {
       formatCompassMakFile({
         directives: [
           directives.baseLocation(
-            Length.feet(100),
-            Length.meters(200),
-            Length.meters(300),
+            Unitize.feet(100),
+            Unitize.meters(200),
+            Unitize.meters(300),
             13,
-            Angle.gradians(50)
+            Unitize.gradians(50)
           ),
           directives.datum('WGS 1984'),
-          directives.utmConvergenceAngle(Angle.degrees(2)),
+          directives.utmConvergenceAngle(Unitize.degrees(2)),
           directives.utmZone(14),
           directives.fileParameters(true, LrudAssociation.FromStation),
           directives.fileParameters(false, LrudAssociation.ToStation),
@@ -29,17 +29,17 @@ describe('formatCompassMakFile', function() {
             {
               station: 'A2',
               location: {
-                easting: Length.feet(23),
-                northing: Length.feet(83),
-                elevation: Length.feet(2),
+                easting: Unitize.feet(23),
+                northing: Unitize.feet(83),
+                elevation: Unitize.feet(2),
               },
             },
             {
               station: 'A3',
               location: {
-                easting: Length.meters(23),
-                northing: Length.feet(83),
-                elevation: Length.feet(2),
+                easting: Unitize.meters(23),
+                northing: Unitize.feet(83),
+                elevation: Unitize.feet(2),
               },
             },
           ]),
