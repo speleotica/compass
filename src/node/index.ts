@@ -1,9 +1,13 @@
 import formatCompassDatFile from '../dat/formatCompassDatFile'
-import { formatCompassMakFile } from '../mak/CompassMakFile'
+import {
+  formatCompassMakFile,
+  parseCompassMakFile as _parseCompassMakFile,
+} from '../mak/CompassMakFile'
 import { promisify } from 'util'
 import fs from 'fs'
+import { SegmentParser, Segment } from 'parse-segment'
 
-const convert = <D>(
+const convertWrite = <D>(
   format: (dat: D, options: { write: (data: string) => any }) => void
 ) => async (file: string, dat: D): Promise<void> => {
   const out = fs.createWriteStream(file, 'ASCII')
@@ -11,5 +15,14 @@ const convert = <D>(
   await promisify(cb => out.end(cb))()
 }
 
-export const writeCompassDatFile = convert(formatCompassDatFile)
-export const writeCompassMakFile = convert(formatCompassMakFile)
+export const writeCompassDatFile = convertWrite(formatCompassDatFile)
+export const writeCompassMakFile = convertWrite(formatCompassMakFile)
+
+const convertParse = <D>(parse: (parser: SegmentParser) => D) => async (
+  file: string
+): Promise<D> => {
+  const data = await promisify<string>(cb => fs.readFile(file, 'utf8', cb))()
+  return parse(new SegmentParser(new Segment({ value: data, source: file })))
+}
+
+export const parseCompassMakFile = convertParse(_parseCompassMakFile)

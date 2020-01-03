@@ -39,6 +39,15 @@ If you don't provide `write`, it will return the output as a `string`. Otherwise
 it will call `write` with chunks of data, so you can pass `write` connected to a
 file write stream.
 
+## [`parseCompassMakFile`](/src/mak/CompassMakFile.ts)
+
+```js
+import { parseCompassMakFile } from '@speleotica/compass/mak'
+```
+
+Takes a `SegmentParser` and returns the parsed `CompassMakFile`.
+Throws if there are any parse errors.
+
 # Node API
 
 ## `writeCompassDatFile(file: string, data: CompassDatFile): Promise<void>`
@@ -56,3 +65,11 @@ import { writeCompassMakFile } from '@speleotica/compass/node'
 ```
 
 Writes Compass project data to the given file.
+
+## `parseCompassMakFile(file: string): Promise<CompassMakFile>`
+
+```js
+import { parseCompassMakFile } from '@speleotica/compass/node'
+```
+
+Parses a Compass project file.

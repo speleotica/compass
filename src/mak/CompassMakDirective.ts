@@ -1,7 +1,7 @@
 import {
   CompassBaseLocationDirective,
   formatCompassBaseLocationDirective,
-} from './CompassBaseLocationDirecive'
+} from './CompassBaseLocationDirective'
 import {
   CompassDatFileDirective,
   formatCompassDatFileDirective,
@@ -17,11 +17,18 @@ import {
 import {
   CompassUtmConvergenceAngleDirective,
   formatCompassUtmConvergenceAngleDirective,
-} from './CompassUtmCovergenceAngleDirective'
+} from './CompassUtmConvergenceAngleDirective'
 import {
   CompassUtmZoneDirective,
   formatCompassUtmZoneDirective,
 } from './CompassUtmZoneDirective'
+import { SegmentParser, SegmentParseError } from 'parse-segment'
+import { parseCompassBaseLocationDirective } from './CompassBaseLocationDirective'
+import { parseCompassDatFileDirective } from './CompassDatFileDirective'
+import { parseCompassFileParametersDirective } from './CompassFileParametersDirective'
+import { parseCompassDatumDirective } from './CompassDatumDirective'
+import { parseCompassUtmConvergenceAngleDirective } from './CompassUtmConvergenceAngleDirective'
+import { parseCompassUtmZoneDirective } from './CompassUtmZoneDirective'
 
 export enum CompassMakDirectiveType {
   BaseLocation = '@',
@@ -56,5 +63,29 @@ export function formatCompassMakDirective(
       return formatCompassUtmConvergenceAngleDirective(directive)
     case CompassMakDirectiveType.UtmZone:
       return formatCompassUtmZoneDirective(directive)
+  }
+}
+
+export function parseCompassMakDirective(
+  parser: SegmentParser
+): CompassMakDirective {
+  switch (parser.currentChar()) {
+    case CompassMakDirectiveType.BaseLocation:
+      return parseCompassBaseLocationDirective(parser)
+    case CompassMakDirectiveType.DatFile:
+      return parseCompassDatFileDirective(parser)
+    case CompassMakDirectiveType.Datum:
+      return parseCompassDatumDirective(parser)
+    case CompassMakDirectiveType.FileParameters:
+      return parseCompassFileParametersDirective(parser)
+    case CompassMakDirectiveType.UtmConvergenceAngle:
+      return parseCompassUtmConvergenceAngleDirective(parser)
+    case CompassMakDirectiveType.UtmZone:
+      return parseCompassUtmZoneDirective(parser)
+    default:
+      throw new SegmentParseError(
+        'invalid directive character',
+        parser.segment.charAt(parser.index)
+      )
   }
 }

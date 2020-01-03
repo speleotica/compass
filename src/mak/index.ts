@@ -1,5 +1,5 @@
 import { CompassMakFile, formatCompassMakFile } from './CompassMakFile'
-import { CompassBaseLocationDirective } from './CompassBaseLocationDirecive'
+import { CompassBaseLocationDirective } from './CompassBaseLocationDirective'
 import {
   CompassDatFileDirective,
   CompassLinkStation,
@@ -14,7 +14,7 @@ import {
   CompassMakDirectiveType,
 } from './CompassMakDirective'
 import { CompassUtmZoneDirective } from './CompassUtmZoneDirective'
-import { CompassUtmConvergenceAngleDirective } from './CompassUtmCovergenceAngleDirective'
+import { CompassUtmConvergenceAngleDirective } from './CompassUtmConvergenceAngleDirective'
 import * as directives from './directives'
 
 export {

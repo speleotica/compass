@@ -13,14 +13,22 @@ import {
 } from '../dat/CompassTrip'
 import { directives, LrudAssociation } from '../mak'
 import { Unitize } from '@speleotica/unitized'
-import { writeCompassDatFile, writeCompassMakFile } from './'
+import {
+  writeCompassDatFile,
+  writeCompassMakFile,
+  parseCompassMakFile,
+} from './'
 import { promisify } from 'util'
 
 const testFile = path.resolve(__dirname, 'testout')
 
 describe('node API', function() {
   afterEach(function() {
-    fs.unlinkSync(testFile)
+    try {
+      fs.unlinkSync(testFile)
+    } catch (error) {
+      // ignore
+    }
   })
   it('writeCompassDatFile', async function() {
     const trips: Array<CompassTrip> = [
@@ -209,5 +217,40 @@ FROM         TO           BEAR    INC     LEN     LEFT    UP      DOWN    RIGHT 
         '  A3[M,23.000,25.298,0.610];',
       ].join('\r\n') + '\r\n'
     )
+  })
+  it('parseCompassMakFile', async function() {
+    expect(
+      await parseCompassMakFile(path.resolve(__dirname, 'test.mak'))
+    ).to.deep.equal({
+      directives: [
+        directives.baseLocation(
+          Unitize.meters(500000),
+          Unitize.meters(4000000),
+          Unitize.meters(200),
+          16,
+          Unitize.degrees(0)
+        ),
+        directives.datum('WGS 1984'),
+        directives.fileParameters(true, LrudAssociation.ToStation),
+        directives.datFile('Fisher Ridge Cave System.dat', [
+          {
+            station: 'AE20',
+            location: {
+              easting: Unitize.meters(0),
+              northing: Unitize.meters(0),
+              elevation: Unitize.meters(0),
+            },
+          },
+          {
+            station: 'Qe2',
+            location: {
+              easting: Unitize.meters(-3000),
+              northing: Unitize.meters(2600),
+              elevation: Unitize.meters(-57),
+            },
+          },
+        ]),
+      ],
+    })
   })
 })

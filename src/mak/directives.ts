@@ -1,5 +1,5 @@
 import { UnitizedNumber, Length, Angle, Unitize } from '@speleotica/unitized'
-import { CompassBaseLocationDirective } from './CompassBaseLocationDirecive'
+import { CompassBaseLocationDirective } from './CompassBaseLocationDirective'
 import { CompassMakDirectiveType } from './CompassMakDirective'
 import {
   CompassLinkStation,
@@ -10,7 +10,7 @@ import {
   CompassFileParametersDirective,
   LrudAssociation,
 } from './CompassFileParametersDirective'
-import { CompassUtmConvergenceAngleDirective } from './CompassUtmCovergenceAngleDirective'
+import { CompassUtmConvergenceAngleDirective } from './CompassUtmConvergenceAngleDirective'
 import { CompassUtmZoneDirective } from './CompassUtmZoneDirective'
 
 export function baseLocation(

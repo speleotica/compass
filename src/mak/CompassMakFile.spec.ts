@@ -1,9 +1,14 @@
 import { describe, it } from 'mocha'
 import { expect } from 'chai'
-import { formatCompassMakFile } from './CompassMakFile'
+import {
+  formatCompassMakFile,
+  parseCompassMakFile,
+  CompassMakFile,
+} from './CompassMakFile'
 import { Unitize } from '@speleotica/unitized'
 import { LrudAssociation } from './CompassFileParametersDirective'
 import * as directives from './directives'
+import { SegmentParser, Segment } from 'parse-segment'
 
 describe('formatCompassMakFile', function() {
   it('works', function() {
@@ -61,5 +66,54 @@ describe('formatCompassMakFile', function() {
         '  A3[M,23.000,25.298,0.610];',
       ].join('\r\n') + '\r\n'
     )
+  })
+})
+
+describe('parseCompassMakFile', () => {
+  const parse = (data: string): CompassMakFile =>
+    parseCompassMakFile(
+      new SegmentParser(new Segment({ value: data, source: 'test.mak' }))
+    )
+  it('works', () => {
+    const data = `
+    @500000.000,4000000.000,200.000,16,0.000;
+    &WGS 1984; comment test
+    ; blah blah blah
+    !OT;
+    #Fisher Ridge Cave System.dat,
+      AE20[M,0.000,0.000,0.000],
+      Qe2[M,-3000,2600,-57];
+    `
+    expect(parse(data)).to.deep.equal({
+      directives: [
+        directives.baseLocation(
+          Unitize.meters(500000),
+          Unitize.meters(4000000),
+          Unitize.meters(200),
+          16,
+          Unitize.degrees(0)
+        ),
+        directives.datum('WGS 1984'),
+        directives.fileParameters(true, LrudAssociation.ToStation),
+        directives.datFile('Fisher Ridge Cave System.dat', [
+          {
+            station: 'AE20',
+            location: {
+              easting: Unitize.meters(0),
+              northing: Unitize.meters(0),
+              elevation: Unitize.meters(0),
+            },
+          },
+          {
+            station: 'Qe2',
+            location: {
+              easting: Unitize.meters(-3000),
+              northing: Unitize.meters(2600),
+              elevation: Unitize.meters(-57),
+            },
+          },
+        ]),
+      ],
+    })
   })
 })
