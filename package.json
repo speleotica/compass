@@ -135,7 +135,7 @@
     "@babel/runtime": "^7.1.5",
     "@speleotica/unitized": "^2.0.0",
     "lodash": "^4.17.15",
-    "parse-segment": "^1.5.2"
+    "parse-segment": "^1.5.3"
   },
   "renovate": {
     "extends": [

@@ -2,6 +2,7 @@ import { CompassMakDirectiveType } from './CompassMakDirective'
 import { UnitizedNumber, Length, Unit } from '@speleotica/unitized'
 import { assertValidStationName } from '../isValidStationName'
 import { SegmentParser, SegmentParseError } from 'parse-segment'
+import { CompassDatFile } from '../dat'
 
 export type CompassLinkStation = {
   station: string
@@ -33,6 +34,7 @@ export type CompassDatFileDirective = {
   type: CompassMakDirectiveType.DatFile
   file: string
   linkStations?: Array<CompassLinkStation> | null
+  data?: CompassDatFile | null
 }
 export function formatCompassDatFileDirective({
   type,

@@ -11,13 +11,14 @@ import {
   FrontsightItem,
   BacksightItem,
 } from '../dat/CompassTrip'
-import { directives, LrudAssociation } from '../mak'
+import { directives, LrudAssociation, CompassMakDirectiveType } from '../mak'
 import { Unitize } from '@speleotica/unitized'
 import {
   writeCompassDatFile,
   writeCompassMakFile,
   parseCompassMakFile,
   parseCompassDatFile,
+  parseCompassMakAndDatFiles,
 } from './'
 import { promisify } from 'util'
 import { formatCompassDatFile } from '../dat'
@@ -260,5 +261,27 @@ FROM         TO           LEN     BEAR    INC     LEFT    UP      DOWN    RIGHT 
     const raw = await promisify(cb => fs.readFile(file, 'ASCII', cb))()
     const data = await parseCompassDatFile(file)
     expect(formatCompassDatFile(data)).to.equal(raw)
+  })
+  describe('parseCompassDatAndMakFiles', () => {
+    it('works', async function() {
+      const file = path.resolve(__dirname, 'gillocks.mak')
+      const data = await parseCompassMakAndDatFiles(file)
+      for (const directive of data.directives) {
+        if (directive.type === CompassMakDirectiveType.DatFile) {
+          expect(directive.data.trips).to.have.lengthOf(3)
+        }
+      }
+    })
+    it('cancelation', async function() {
+      const file = path.resolve(__dirname, 'gillocks.mak')
+      await expect(
+        parseCompassMakAndDatFiles(file, {
+          onProgress() {
+            // noop
+          },
+          canceled: true,
+        })
+      ).to.be.rejectedWith('canceled')
+    })
   })
 })

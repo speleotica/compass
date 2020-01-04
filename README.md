@@ -96,3 +96,25 @@ import { parseCompassDatFile } from '@speleotica/compass/node'
 ```
 
 Parses a Compass survey file.
+
+## `parseCompassMakAndDatFiles(file: string, task?: Task): Promise<CompassMakFile>`
+
+```js
+import { parseCompassMakAndDatFiles } from '@speleotica/compass/node'
+```
+
+Parses a Compass project file, then parses all of the linked survey files in it.
+All dat file directives in the result will have their `data` property set to the
+parsed `CompassDatFile` data.
+
+### The `Task` interface`
+
+This allows you to receive progress notifications or cancel the parsing.
+
+#### `onProgress(progress: {message?: string, completed?: number, total?: number}): any`
+
+The function will call this method with progress updates. Not all fields may be set at the same time.
+
+#### `canceled: boolean`
+
+If you set this to `true`, the function will reject with a `canceled` `Error`.

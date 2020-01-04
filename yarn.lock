@@ -6534,10 +6534,10 @@ parse-passwd@^1.0.0:
   resolved "https://registry.yarnpkg.com/parse-passwd/-/parse-passwd-1.0.0.tgz#6d5b934a456993b23d37f40a382d6f1666a8e5c6"
   integrity sha1-bVuTSkVpk7I9N/QKOC1vFmao5cY=
 
-parse-segment@^1.5.2:
-  version "1.5.2"
-  resolved "https://registry.yarnpkg.com/parse-segment/-/parse-segment-1.5.2.tgz#df42d231edfbb754959f52a6cdbfd356d3944114"
-  integrity sha512-1vIt1GUSB3xS6lxCd2qSoAGvTjjURmgKsfOFKPf7h518kH0fZGUByeOm6Z7Xc41fuscsLzSLA9QHfEgdz4eeDw==
+parse-segment@^1.5.3:
+  version "1.5.3"
+  resolved "https://registry.yarnpkg.com/parse-segment/-/parse-segment-1.5.3.tgz#046b575a521368f378e83b251d3ae2ff0ff1b5d0"
+  integrity sha512-SlCfNpA7NM41GaBGU5nfhfLnc3vxQ0QSwtCgs8ek83RjbsKnw9uIzdZ4Pi4UIfsL0tZnxaBnmMLMs44gUxBpvA==
   dependencies:
     "@babel/runtime" "^7.1.5"
     es6-error "^4.1.1"
