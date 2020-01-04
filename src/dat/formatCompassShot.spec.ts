@@ -24,9 +24,9 @@ describe('formatCompassShot', () => {
       inclinationUnit: InclinationUnit.Degrees,
       lrudOrder: [LrudItem.Left, LrudItem.Up, LrudItem.Down, LrudItem.Right],
       frontsightOrder: [
+        FrontsightItem.Distance,
         FrontsightItem.Azimuth,
         FrontsightItem.Inclination,
-        FrontsightItem.Distance,
       ],
     })({
       from: 'foo',
@@ -38,7 +38,7 @@ describe('formatCompassShot', () => {
       up: Unitize.feet(2),
     })
     expect(actual).to.equal(
-      '          foo          bar   45.00  -10.00    3.28    1.00    2.00 -999.00 -999.00\r\n'
+      '          foo          bar    3.28   45.00  -10.00    1.00    2.00 -999.00 -999.00\r\n'
     )
   })
   it('backsights', () => {
@@ -53,9 +53,9 @@ describe('formatCompassShot', () => {
       inclinationUnit: InclinationUnit.Degrees,
       lrudOrder: [LrudItem.Left, LrudItem.Up, LrudItem.Down, LrudItem.Right],
       frontsightOrder: [
+        FrontsightItem.Distance,
         FrontsightItem.Azimuth,
         FrontsightItem.Inclination,
-        FrontsightItem.Distance,
       ],
       backsightOrder: [BacksightItem.Azimuth, BacksightItem.Inclination],
     })({
@@ -70,7 +70,7 @@ describe('formatCompassShot', () => {
       up: Unitize.feet(2),
     })
     expect(actual).to.equal(
-      '          foo          bar   45.00  -10.00    3.28    1.00    2.00 -999.00 -999.00   30.00   -8.00\r\n'
+      '          foo          bar    3.28   45.00  -10.00    1.00    2.00 -999.00 -999.00   30.00   -8.00\r\n'
     )
   })
   it('depth gauge', () => {
@@ -85,9 +85,9 @@ describe('formatCompassShot', () => {
       inclinationUnit: InclinationUnit.DepthGauge,
       lrudOrder: [LrudItem.Left, LrudItem.Up, LrudItem.Down, LrudItem.Right],
       frontsightOrder: [
+        FrontsightItem.Distance,
         FrontsightItem.Azimuth,
         FrontsightItem.Inclination,
-        FrontsightItem.Distance,
       ],
       backsightOrder: [BacksightItem.Azimuth, BacksightItem.Inclination],
     })({
@@ -102,7 +102,7 @@ describe('formatCompassShot', () => {
       up: Unitize.feet(2),
     })
     expect(actual).to.equal(
-      '          foo          bar   45.00    9.84    3.28    1.00    2.00 -999.00 -999.00   30.00   16.40\r\n'
+      '          foo          bar    3.28   45.00    9.84    1.00    2.00 -999.00 -999.00   30.00   16.40\r\n'
     )
   })
   it('invalid station name', () => {
@@ -140,9 +140,9 @@ describe('formatCompassShot', () => {
       inclinationUnit: InclinationUnit.Degrees,
       lrudOrder: [LrudItem.Left, LrudItem.Up, LrudItem.Down, LrudItem.Right],
       frontsightOrder: [
+        FrontsightItem.Distance,
         FrontsightItem.Azimuth,
         FrontsightItem.Inclination,
-        FrontsightItem.Distance,
       ],
     })({
       from: 'foo',
@@ -155,7 +155,7 @@ describe('formatCompassShot', () => {
       comment,
     })
     expect(actual).to.equal(
-      `          foo          bar   45.00  -10.00    3.28    1.00    2.00 -999.00 -999.00 ${comment.slice(
+      `          foo          bar    3.28   45.00  -10.00    1.00    2.00 -999.00 -999.00 ${comment.slice(
         0,
         80
       )}\r\n`
@@ -174,9 +174,9 @@ describe('formatCompassShot', () => {
         inclinationUnit: InclinationUnit.Degrees,
         lrudOrder: [LrudItem.Left, LrudItem.Up, LrudItem.Down, LrudItem.Right],
         frontsightOrder: [
+          FrontsightItem.Distance,
           FrontsightItem.Azimuth,
           FrontsightItem.Inclination,
-          FrontsightItem.Distance,
         ],
         backsightOrder: [BacksightItem.Azimuth, BacksightItem.Inclination],
       })({
@@ -192,7 +192,7 @@ describe('formatCompassShot', () => {
         [flag]: true,
       })
       expect(actual).to.equal(
-        `          foo          bar   45.00  -10.00    3.28    1.00    2.00 -999.00 -999.00   30.00   -8.00 #|${
+        `          foo          bar    3.28   45.00  -10.00    1.00    2.00 -999.00 -999.00   30.00   -8.00 #|${
           flagChars[flag]
         }#\r\n`
       )
@@ -210,9 +210,9 @@ describe('formatCompassShot', () => {
       inclinationUnit: InclinationUnit.Degrees,
       lrudOrder: [LrudItem.Left, LrudItem.Up, LrudItem.Down, LrudItem.Right],
       frontsightOrder: [
+        FrontsightItem.Distance,
         FrontsightItem.Azimuth,
         FrontsightItem.Inclination,
-        FrontsightItem.Distance,
       ],
       backsightOrder: [BacksightItem.Azimuth, BacksightItem.Inclination],
     })({
@@ -232,7 +232,7 @@ describe('formatCompassShot', () => {
       comment: 'foo bar baz qux',
     })
     expect(actual).to.equal(
-      `          foo          bar   45.00  -10.00    3.28    1.00    2.00 -999.00 -999.00   30.00   -8.00 #|LPXC# foo bar baz qux\r\n`
+      `          foo          bar    3.28   45.00  -10.00    1.00    2.00 -999.00 -999.00   30.00   -8.00 #|LPXC# foo bar baz qux\r\n`
     )
   })
   it('multiline input comment', () => {
@@ -247,9 +247,9 @@ describe('formatCompassShot', () => {
       inclinationUnit: InclinationUnit.Degrees,
       lrudOrder: [LrudItem.Left, LrudItem.Up, LrudItem.Down, LrudItem.Right],
       frontsightOrder: [
+        FrontsightItem.Distance,
         FrontsightItem.Azimuth,
         FrontsightItem.Inclination,
-        FrontsightItem.Distance,
       ],
       backsightOrder: [BacksightItem.Azimuth, BacksightItem.Inclination],
     })({
@@ -272,7 +272,7 @@ baz\r
 qux`,
     })
     expect(actual).to.equal(
-      `          foo          bar   45.00  -10.00    3.28    1.00    2.00 -999.00 -999.00   30.00   -8.00 #|LPXC# foo bar baz qux\r\n`
+      `          foo          bar    3.28   45.00  -10.00    1.00    2.00 -999.00 -999.00   30.00   -8.00 #|LPXC# foo bar baz qux\r\n`
     )
   })
 })

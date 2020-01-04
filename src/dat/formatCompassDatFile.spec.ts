@@ -124,10 +124,10 @@ SURVEY TEAM:
 
 DECLINATION: 1.00  FORMAT: DDDDLUDRADLad
 
-FROM         TO           BEAR    INC     LEN     LEFT    UP      DOWN    RIGHT   AZM2    INC2    FLAGS COMMENTS
+FROM         TO           LEN     BEAR    INC     LEFT    UP      DOWN    RIGHT   AZM2    INC2    FLAGS COMMENTS
 
-           A1           A2   45.00  -10.00    3.28    1.00    2.00 -999.00 -999.00   30.00   -8.00
-           A2           A3   20.00  -10.00    5.00 -999.00    2.00 -999.00    1.00   22.00   -8.00
+           A1           A2    3.28   45.00  -10.00    1.00    2.00 -999.00 -999.00   30.00   -8.00
+           A2           A3    5.00   20.00  -10.00 -999.00    2.00 -999.00    1.00   22.00   -8.00
 \f
 SECRET CAVE
 SURVEY NAME: A3-5
@@ -136,10 +136,10 @@ SURVEY TEAM:
 Dudes
 DECLINATION: 1.00  FORMAT: DDDDLUDRADLad
 
-FROM         TO           BEAR    INC     LEN     LEFT    UP      DOWN    RIGHT   AZM2    INC2    FLAGS COMMENTS
+FROM         TO           LEN     BEAR    INC     LEFT    UP      DOWN    RIGHT   AZM2    INC2    FLAGS COMMENTS
 
-           A3           A4   45.00  -10.00    3.28 -999.00 -999.00    1.00    2.00   30.00   -8.00
-           A4           A5   20.00  -10.00    5.00 -999.00    2.00    1.00 -999.00   22.00   -8.00 #|L# test
+           A3           A4    3.28   45.00  -10.00 -999.00 -999.00    1.00    2.00   30.00   -8.00
+           A4           A5    5.00   20.00  -10.00 -999.00    2.00    1.00 -999.00   22.00   -8.00 #|L# test
 \f
 `.replace(/\n/gm, '\r\n')
     )

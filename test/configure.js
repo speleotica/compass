@@ -1,5 +1,8 @@
 /* eslint-disable */
 
+const chai = require('chai')
+const chaiAsPromised = require('chai-as-promised')
+chai.use(chaiAsPromised)
 const { before } = require('mocha')
 require('@babel/register')({ extensions: ['.js', '.ts'] })
 

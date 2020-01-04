@@ -71,19 +71,16 @@ export default function formatCompassTripHeader<
   const columnHeaders = [
     'FROM         ',
     'TO           ',
-    frontsightHeaders[frontsightOrder[0]],
-    frontsightHeaders[frontsightOrder[1]],
-    frontsightHeaders[frontsightOrder[2]],
-    lrudItemHeaders[lrudOrder[0]],
-    lrudItemHeaders[lrudOrder[1]],
-    lrudItemHeaders[lrudOrder[2]],
-    lrudItemHeaders[lrudOrder[3]],
+    'LEN     ',
+    'BEAR    ',
+    'INC     ',
+    'LEFT    ',
+    'UP      ',
+    'DOWN    ',
+    'RIGHT   ',
   ]
   if (backsightOrder) {
-    columnHeaders.push(
-      backsightHeaders[backsightOrder[0]],
-      backsightHeaders[backsightOrder[1]]
-    )
+    columnHeaders.push('AZM2    ', 'INC2    ')
   }
   const incUnit = (inclinationUnit === InclinationUnit.DepthGauge
     ? Length.feet

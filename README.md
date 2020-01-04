@@ -48,6 +48,21 @@ import { parseCompassMakFile } from '@speleotica/compass/mak'
 Takes a `SegmentParser` and returns the parsed `CompassMakFile`.
 Throws if there are any parse errors.
 
+## [`parseCompassDatFile`](/src/mak/CompassMakFile.ts)
+
+```js
+import { parseCompassDatFile } from '@speleotica/compass/dat'
+```
+
+### Signature
+
+```
+async function parseCompassDatFile(
+  file: string,
+  lines: AsyncIterable<string>
+): Promise<CompassDatFile>
+```
+
 # Node API
 
 ## `writeCompassDatFile(file: string, data: CompassDatFile): Promise<void>`
@@ -73,3 +88,11 @@ import { parseCompassMakFile } from '@speleotica/compass/node'
 ```
 
 Parses a Compass project file.
+
+## `parseCompassDatFile(file: string): Promise<CompassDatFile>`
+
+```js
+import { parseCompassDatFile } from '@speleotica/compass/node'
+```
+
+Parses a Compass survey file.

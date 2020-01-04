@@ -66,45 +66,18 @@ const formatCompassShot = <Inc extends UnitType<Inc> = Angle>({
   const cols = [
     cell(from, 13),
     cell(to, 13),
-    ...frontsightOrder.map(
-      (item: FrontsightItem): string => {
-        switch (item) {
-          case FrontsightItem.Azimuth:
-            return formatNumber(frontsightAzimuth, Angle.degrees, 8)
-          case FrontsightItem.Inclination:
-            return formatNumber(frontsightInclination, incUnit, 8)
-          case FrontsightItem.Distance:
-            return formatNumber(distance, Length.feet, 8)
-        }
-      }
-    ),
-    ...lrudOrder.map(
-      (item: LrudItem): string => {
-        switch (item) {
-          case LrudItem.Left:
-            return formatNumber(left, Length.feet, 8)
-          case LrudItem.Right:
-            return formatNumber(right, Length.feet, 8)
-          case LrudItem.Up:
-            return formatNumber(up, Length.feet, 8)
-          case LrudItem.Down:
-            return formatNumber(down, Length.feet, 8)
-        }
-      }
-    ),
+    formatNumber(distance, Length.feet, 8),
+    formatNumber(frontsightAzimuth, Angle.degrees, 8),
+    formatNumber(frontsightInclination, incUnit, 8),
+    formatNumber(left, Length.feet, 8),
+    formatNumber(up, Length.feet, 8),
+    formatNumber(down, Length.feet, 8),
+    formatNumber(right, Length.feet, 8),
   ]
   if (backsightOrder) {
     cols.push(
-      ...backsightOrder.map(
-        (item: BacksightItem): string => {
-          switch (item) {
-            case BacksightItem.Azimuth:
-              return formatNumber(backsightAzimuth, Angle.degrees, 8)
-            case BacksightItem.Inclination:
-              return formatNumber(backsightInclination, incUnit, 8)
-          }
-        }
-      )
+      formatNumber(backsightAzimuth, Angle.degrees, 8),
+      formatNumber(backsightInclination, incUnit, 8)
     )
   }
   let flags = ''

@@ -59,7 +59,7 @@ SURVEY TEAM:\r
 \r
 DECLINATION: 1.00  FORMAT: DDDDLUDRADL\r
 \r
-FROM         TO           BEAR    INC     LEN     LEFT    UP      DOWN    RIGHT   FLAGS COMMENTS\r
+FROM         TO           LEN     BEAR    INC     LEFT    UP      DOWN    RIGHT   FLAGS COMMENTS\r
 \r
 `)
   })
@@ -98,7 +98,7 @@ SURVEY TEAM:\r
 Dude\r
 DECLINATION: 1.00  FORMAT: QIMGLUDRADLadBT  CORRECTIONS: 3.00 4.00 2.00 CORRECTIONS2: 5.00 6.00\r
 \r
-FROM         TO           BEAR    INC     LEN     LEFT    UP      DOWN    RIGHT   AZM2    INC2    FLAGS COMMENTS\r
+FROM         TO           LEN     BEAR    INC     LEFT    UP      DOWN    RIGHT   AZM2    INC2    FLAGS COMMENTS\r
 \r
 `)
   })
@@ -134,7 +134,7 @@ SURVEY TEAM:\r
 Dude\r
 DECLINATION: 1.00  FORMAT: QIMGLUDRADLadBT  CORRECTIONS: 1.00 0.00 0.00 CORRECTIONS2: 0.00 2.00\r
 \r
-FROM         TO           BEAR    INC     LEN     LEFT    UP      DOWN    RIGHT   AZM2    INC2    FLAGS COMMENTS\r
+FROM         TO           LEN     BEAR    INC     LEFT    UP      DOWN    RIGHT   AZM2    INC2    FLAGS COMMENTS\r
 \r
 `)
   })
@@ -170,7 +170,7 @@ SURVEY TEAM:\r
 Dude\r
 DECLINATION: 1.00  FORMAT: QIMWLUDRADLadBT  CORRECTIONS: 0.00 3.28 0.00 CORRECTIONS2: 0.00 6.56\r
 \r
-FROM         TO           BEAR    INC     LEN     LEFT    UP      DOWN    RIGHT   AZM2    INC2    FLAGS COMMENTS\r
+FROM         TO           LEN     BEAR    INC     LEFT    UP      DOWN    RIGHT   AZM2    INC2    FLAGS COMMENTS\r
 \r
 `)
   })
@@ -206,7 +206,7 @@ SURVEY TEAM:\r
 ${repeat('Dude', 50).substring(0, 100)}\r
 DECLINATION: 1.00  FORMAT: QIMWLUDRADLadBT  CORRECTIONS: 0.00 3.28 0.00 CORRECTIONS2: 0.00 6.56\r
 \r
-FROM         TO           BEAR    INC     LEN     LEFT    UP      DOWN    RIGHT   AZM2    INC2    FLAGS COMMENTS\r
+FROM         TO           LEN     BEAR    INC     LEFT    UP      DOWN    RIGHT   AZM2    INC2    FLAGS COMMENTS\r
 \r
 `)
   })
