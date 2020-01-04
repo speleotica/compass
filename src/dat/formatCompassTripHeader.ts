@@ -1,31 +1,10 @@
 import {
   CompassTripHeader,
   LrudAssociation,
-  FrontsightItem,
-  BacksightItem,
-  LrudItem,
   InclinationUnit,
 } from './CompassTrip'
 import { Angle, Length, UnitType, Unitize } from '@speleotica/unitized'
 import { assertValidStationName } from '../isValidStationName'
-
-const frontsightHeaders = {
-  [FrontsightItem.Distance]: 'LEN     ',
-  [FrontsightItem.Azimuth]: 'BEAR    ',
-  [FrontsightItem.Inclination]: 'INC     ',
-}
-
-const backsightHeaders = {
-  [BacksightItem.Azimuth]: 'AZM2    ',
-  [BacksightItem.Inclination]: 'INC2    ',
-}
-
-const lrudItemHeaders = {
-  [LrudItem.Left]: 'LEFT    ',
-  [LrudItem.Right]: 'RIGHT   ',
-  [LrudItem.Up]: 'UP      ',
-  [LrudItem.Down]: 'DOWN    ',
-}
 
 export default function formatCompassTripHeader<
   Inc extends UnitType<Inc> = Angle

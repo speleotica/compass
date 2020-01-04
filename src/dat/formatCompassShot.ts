@@ -1,11 +1,5 @@
 import { CompassShot } from './CompassShot'
-import {
-  CompassTripHeader,
-  FrontsightItem,
-  InclinationUnit,
-  LrudItem,
-  BacksightItem,
-} from './CompassTrip'
+import { CompassTripHeader, InclinationUnit } from './CompassTrip'
 import {
   UnitizedNumber,
   UnitType,
@@ -36,9 +30,7 @@ export const flagChars = {
 }
 
 const formatCompassShot = <Inc extends UnitType<Inc> = Angle>({
-  frontsightOrder,
   backsightOrder,
-  lrudOrder,
   inclinationUnit,
 }: CompassTripHeader) => ({
   from,
