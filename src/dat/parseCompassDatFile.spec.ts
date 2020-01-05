@@ -145,11 +145,17 @@ describe('parseCompassDatFile', () => {
     it('invalid frontsight item', () => {
       expect(() => parse('QIMWDURLDAQ')).to.throw('invalid frontsight item')
     })
+    it('duplicate frontsight item', () => {
+      expect(() => parse('DDDDLRUDDDA')).to.throw('duplicate frontsight item')
+    })
     it('missing lrud item', () => {
       expect(() => parse('QIMWDUR')).to.throw('missing lrud item')
     })
     it('invalid lrud item', () => {
       expect(() => parse('QIMWDURQ')).to.throw('invalid lrud item')
+    })
+    it('duplicate lrud item', () => {
+      expect(() => parse('DDDDLRDDLAD')).to.throw('duplicate lrud item')
     })
     it('works', () => {
       expect(parse('QIMWDURLDAL')).to.deep.equal({

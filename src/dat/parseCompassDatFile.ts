@@ -143,6 +143,28 @@ const parseFormatEnum = <V>(
   }
 }
 
+const parseFormatEnums = <V>(
+  _enum: Record<any, V>,
+  fieldName: string
+): ((parser: SegmentParser, count: number) => V[]) => {
+  const baseParse = parseFormatEnum(_enum, fieldName)
+  return (parser: SegmentParser, count: number): V[] => {
+    const result: V[] = []
+    while (count-- > 0) {
+      const startIndex = parser.index
+      const next = baseParse(parser)
+      if (result.includes(next)) {
+        throw new SegmentParseError(
+          `duplicate ${fieldName}`,
+          parser.segment.substring(startIndex, parser.index)
+        )
+      }
+      result.push(next)
+    }
+    return result
+  }
+}
+
 const parseAzimuthUnit = parseFormatEnum<AzimuthUnit>(
   AzimuthUnit,
   'azimuth unit'
@@ -156,12 +178,12 @@ const parseInclinationUnit = parseFormatEnum<InclinationUnit>(
   InclinationUnit,
   'inclination unit'
 )
-const parseLrudItem = parseFormatEnum<LrudItem>(LrudItem, 'lrud item')
-const parseFrontsightItem = parseFormatEnum<FrontsightItem>(
+const parseLrudItems = parseFormatEnums<LrudItem>(LrudItem, 'lrud item')
+const parseFrontsightItems = parseFormatEnums<FrontsightItem>(
   FrontsightItem,
   'frontsight item'
 )
-const parseBacksightItem = parseFormatEnum<BacksightItem>(
+const parseBacksightItems = parseFormatEnums<BacksightItem>(
   BacksightItem,
   'backsight item'
 )
@@ -180,21 +202,21 @@ export function parseFormat(
   tripHeader.distanceUnit = parseDistanceUnit(parser)
   tripHeader.lrudUnit = parseLrudUnit(parser)
   tripHeader.inclinationUnit = parseInclinationUnit(parser)
-  tripHeader.lrudOrder = [
-    parseLrudItem(parser),
-    parseLrudItem(parser),
-    parseLrudItem(parser),
-    parseLrudItem(parser),
+  tripHeader.lrudOrder = parseLrudItems(parser, 4) as [
+    LrudItem,
+    LrudItem,
+    LrudItem,
+    LrudItem
   ]
-  tripHeader.frontsightOrder = [
-    parseFrontsightItem(parser),
-    parseFrontsightItem(parser),
-    parseFrontsightItem(parser),
+  tripHeader.frontsightOrder = parseFrontsightItems(parser, 3) as [
+    FrontsightItem,
+    FrontsightItem,
+    FrontsightItem
   ]
   if (segment.length >= 15) {
-    tripHeader.backsightOrder = [
-      parseBacksightItem(parser),
-      parseBacksightItem(parser),
+    tripHeader.backsightOrder = parseBacksightItems(parser, 2) as [
+      BacksightItem,
+      BacksightItem
     ]
   }
   if (segment.length > 11) {
