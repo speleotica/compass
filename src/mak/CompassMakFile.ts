@@ -28,11 +28,10 @@ export function formatCompassMakFile(
 
 export function parseCompassMakFile(parser: SegmentParser): CompassMakFile {
   const directives: CompassMakDirective[] = []
-  while ((parser.skip(/\s*/), !parser.isAtEnd())) {
-    if (parser.currentChar() !== ';') {
-      directives.push(parseCompassMakDirective(parser))
-    }
-    while (!parser.isAtEndOfLine()) parser.index++
+  while (
+    (parser.skip(/\s*/), !parser.isAtEnd() && parser.currentChar() !== '\u001a')
+  ) {
+    directives.push(parseCompassMakDirective(parser))
   }
   return { directives }
 }

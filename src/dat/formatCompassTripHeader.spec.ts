@@ -7,8 +7,7 @@ import {
   DistanceUnit,
   InclinationUnit,
   LrudItem,
-  FrontsightItem,
-  BacksightItem,
+  ShotItem,
   LrudAssociation,
 } from './CompassTrip'
 import { repeat } from 'lodash'
@@ -26,10 +25,10 @@ describe('formatCompassTripHeader', () => {
         lrudUnit: DistanceUnit.DecimalFeet,
         inclinationUnit: InclinationUnit.Degrees,
         lrudOrder: [LrudItem.Left, LrudItem.Up, LrudItem.Down, LrudItem.Right],
-        frontsightOrder: [
-          FrontsightItem.Azimuth,
-          FrontsightItem.Inclination,
-          FrontsightItem.Distance,
+        shotOrder: [
+          ShotItem.FrontsightAzimuth,
+          ShotItem.FrontsightInclination,
+          ShotItem.Distance,
         ],
       })
     ).to.throw
@@ -46,10 +45,10 @@ describe('formatCompassTripHeader', () => {
         lrudUnit: DistanceUnit.DecimalFeet,
         inclinationUnit: InclinationUnit.Degrees,
         lrudOrder: [LrudItem.Left, LrudItem.Up, LrudItem.Down, LrudItem.Right],
-        frontsightOrder: [
-          FrontsightItem.Azimuth,
-          FrontsightItem.Inclination,
-          FrontsightItem.Distance,
+        shotOrder: [
+          ShotItem.FrontsightAzimuth,
+          ShotItem.FrontsightInclination,
+          ShotItem.Distance,
         ],
       })
     ).to.equal(`SECRET CAVE\r
@@ -77,12 +76,13 @@ FROM         TO           LEN     BEAR    INC     LEFT    UP      DOWN    RIGHT 
         lrudUnit: DistanceUnit.Meters,
         inclinationUnit: InclinationUnit.PercentGrade,
         lrudOrder: [LrudItem.Left, LrudItem.Up, LrudItem.Down, LrudItem.Right],
-        frontsightOrder: [
-          FrontsightItem.Azimuth,
-          FrontsightItem.Inclination,
-          FrontsightItem.Distance,
+        shotOrder: [
+          ShotItem.FrontsightAzimuth,
+          ShotItem.FrontsightInclination,
+          ShotItem.Distance,
+          ShotItem.BacksightAzimuth,
+          ShotItem.BacksightInclination,
         ],
-        backsightOrder: [BacksightItem.Azimuth, BacksightItem.Inclination],
         hasRedundantBacksights: true,
         lrudAssociation: LrudAssociation.ToStation,
         distanceCorrection: Unitize.feet(2),
@@ -116,12 +116,13 @@ FROM         TO           LEN     BEAR    INC     LEFT    UP      DOWN    RIGHT 
         lrudUnit: DistanceUnit.Meters,
         inclinationUnit: InclinationUnit.PercentGrade,
         lrudOrder: [LrudItem.Left, LrudItem.Up, LrudItem.Down, LrudItem.Right],
-        frontsightOrder: [
-          FrontsightItem.Azimuth,
-          FrontsightItem.Inclination,
-          FrontsightItem.Distance,
+        shotOrder: [
+          ShotItem.FrontsightAzimuth,
+          ShotItem.FrontsightInclination,
+          ShotItem.Distance,
+          ShotItem.BacksightAzimuth,
+          ShotItem.BacksightInclination,
         ],
-        backsightOrder: [BacksightItem.Azimuth, BacksightItem.Inclination],
         hasRedundantBacksights: true,
         lrudAssociation: LrudAssociation.ToStation,
         frontsightAzimuthCorrection: Unitize.degrees(1),
@@ -152,12 +153,13 @@ FROM         TO           LEN     BEAR    INC     LEFT    UP      DOWN    RIGHT 
         lrudUnit: DistanceUnit.Meters,
         inclinationUnit: InclinationUnit.DepthGauge,
         lrudOrder: [LrudItem.Left, LrudItem.Up, LrudItem.Down, LrudItem.Right],
-        frontsightOrder: [
-          FrontsightItem.Azimuth,
-          FrontsightItem.Inclination,
-          FrontsightItem.Distance,
+        shotOrder: [
+          ShotItem.FrontsightAzimuth,
+          ShotItem.FrontsightInclination,
+          ShotItem.Distance,
+          ShotItem.BacksightAzimuth,
+          ShotItem.BacksightInclination,
         ],
-        backsightOrder: [BacksightItem.Azimuth, BacksightItem.Inclination],
         hasRedundantBacksights: true,
         lrudAssociation: LrudAssociation.ToStation,
         frontsightInclinationCorrection: Unitize.meters(1),
@@ -188,12 +190,13 @@ FROM         TO           LEN     BEAR    INC     LEFT    UP      DOWN    RIGHT 
         lrudUnit: DistanceUnit.Meters,
         inclinationUnit: InclinationUnit.DepthGauge,
         lrudOrder: [LrudItem.Left, LrudItem.Up, LrudItem.Down, LrudItem.Right],
-        frontsightOrder: [
-          FrontsightItem.Azimuth,
-          FrontsightItem.Inclination,
-          FrontsightItem.Distance,
+        shotOrder: [
+          ShotItem.FrontsightAzimuth,
+          ShotItem.FrontsightInclination,
+          ShotItem.Distance,
+          ShotItem.BacksightAzimuth,
+          ShotItem.BacksightInclination,
         ],
-        backsightOrder: [BacksightItem.Azimuth, BacksightItem.Inclination],
         hasRedundantBacksights: true,
         lrudAssociation: LrudAssociation.ToStation,
         frontsightInclinationCorrection: Unitize.meters(1),

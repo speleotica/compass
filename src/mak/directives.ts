@@ -12,6 +12,7 @@ import {
 } from './CompassFileParametersDirective'
 import { CompassUtmConvergenceAngleDirective } from './CompassUtmConvergenceAngleDirective'
 import { CompassUtmZoneDirective } from './CompassUtmZoneDirective'
+import { CompassCommentDirective } from './CompassCommentDirective'
 
 export function baseLocation(
   utmEasting: UnitizedNumber<Length>,
@@ -72,5 +73,12 @@ export function utmZone(utmZone: number): CompassUtmZoneDirective {
   return {
     type: CompassMakDirectiveType.UtmZone,
     utmZone,
+  }
+}
+
+export function comment(comment: string): CompassCommentDirective {
+  return {
+    type: CompassMakDirectiveType.Comment,
+    comment,
   }
 }

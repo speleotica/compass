@@ -15,8 +15,7 @@ import {
   AzimuthUnit,
   InclinationUnit,
   LrudItem,
-  FrontsightItem,
-  BacksightItem,
+  ShotItem,
   LrudAssociation,
   CompassShot,
 } from '.'
@@ -139,14 +138,14 @@ describe('parseCompassDatFile', () => {
       parseFormat(parser, header)
       return header
     }
-    it('missing frontsight item', () => {
-      expect(() => parse('QIMWDURLDA')).to.throw('missing frontsight item')
+    it('missing shot item', () => {
+      expect(() => parse('QIMWDURLDA')).to.throw('missing shot item')
     })
-    it('invalid frontsight item', () => {
-      expect(() => parse('QIMWDURLDAQ')).to.throw('invalid frontsight item')
+    it('invalid shot item', () => {
+      expect(() => parse('QIMWDURLDAQ')).to.throw('invalid shot item')
     })
-    it('duplicate frontsight item', () => {
-      expect(() => parse('DDDDLRUDDDA')).to.throw('duplicate frontsight item')
+    it('duplicate shot item', () => {
+      expect(() => parse('DDDDLRUDDDA')).to.throw('duplicate shot item')
     })
     it('missing lrud item', () => {
       expect(() => parse('QIMWDUR')).to.throw('missing lrud item')
@@ -164,11 +163,12 @@ describe('parseCompassDatFile', () => {
         inclinationUnit: InclinationUnit.DepthGauge,
         lrudUnit: DistanceUnit.Meters,
         lrudOrder: [LrudItem.Down, LrudItem.Up, LrudItem.Right, LrudItem.Left],
-        frontsightOrder: [
-          FrontsightItem.Inclination,
-          FrontsightItem.Azimuth,
-          FrontsightItem.Distance,
+        shotOrder: [
+          ShotItem.FrontsightInclination,
+          ShotItem.FrontsightAzimuth,
+          ShotItem.Distance,
         ],
+        hasRedundantBacksights: false,
       })
       expect(parse('QIMWDURLDALNF')).to.deep.equal({
         distanceUnit: DistanceUnit.FeetAndInches,
@@ -176,10 +176,10 @@ describe('parseCompassDatFile', () => {
         inclinationUnit: InclinationUnit.DepthGauge,
         lrudUnit: DistanceUnit.Meters,
         lrudOrder: [LrudItem.Down, LrudItem.Up, LrudItem.Right, LrudItem.Left],
-        frontsightOrder: [
-          FrontsightItem.Inclination,
-          FrontsightItem.Azimuth,
-          FrontsightItem.Distance,
+        shotOrder: [
+          ShotItem.FrontsightInclination,
+          ShotItem.FrontsightAzimuth,
+          ShotItem.Distance,
         ],
         hasRedundantBacksights: false,
         lrudAssociation: LrudAssociation.FromStation,
@@ -190,12 +190,13 @@ describe('parseCompassDatFile', () => {
         inclinationUnit: InclinationUnit.DepthGauge,
         lrudUnit: DistanceUnit.Meters,
         lrudOrder: [LrudItem.Down, LrudItem.Up, LrudItem.Right, LrudItem.Left],
-        frontsightOrder: [
-          FrontsightItem.Inclination,
-          FrontsightItem.Azimuth,
-          FrontsightItem.Distance,
+        shotOrder: [
+          ShotItem.FrontsightInclination,
+          ShotItem.FrontsightAzimuth,
+          ShotItem.Distance,
+          ShotItem.BacksightInclination,
+          ShotItem.BacksightAzimuth,
         ],
-        backsightOrder: [BacksightItem.Inclination, BacksightItem.Azimuth],
         hasRedundantBacksights: true,
         lrudAssociation: LrudAssociation.FromStation,
       })
@@ -248,12 +249,13 @@ FROM         TO           LEN     BEAR    INC     LEFT    RIGHT   UP      DOWN  
         lrudUnit: DistanceUnit.DecimalFeet,
         inclinationUnit: InclinationUnit.Degrees,
         lrudOrder: [LrudItem.Left, LrudItem.Right, LrudItem.Up, LrudItem.Down],
-        frontsightOrder: [
-          FrontsightItem.Distance,
-          FrontsightItem.Azimuth,
-          FrontsightItem.Inclination,
+        shotOrder: [
+          ShotItem.Distance,
+          ShotItem.FrontsightAzimuth,
+          ShotItem.FrontsightInclination,
+          ShotItem.BacksightAzimuth,
+          ShotItem.BacksightInclination,
         ],
-        backsightOrder: [BacksightItem.Azimuth, BacksightItem.Inclination],
         hasRedundantBacksights: true,
         lrudAssociation: LrudAssociation.ToStation,
         distanceCorrection: Unitize.feet(3),
@@ -288,17 +290,52 @@ FROM         TO           LEN     BEAR    INC     LEFT    RIGHT   UP      DOWN  
         lrudUnit: DistanceUnit.DecimalFeet,
         inclinationUnit: InclinationUnit.Degrees,
         lrudOrder: [LrudItem.Left, LrudItem.Right, LrudItem.Up, LrudItem.Down],
-        frontsightOrder: [
-          FrontsightItem.Distance,
-          FrontsightItem.Azimuth,
-          FrontsightItem.Inclination,
+        shotOrder: [
+          ShotItem.Distance,
+          ShotItem.FrontsightAzimuth,
+          ShotItem.FrontsightInclination,
+          ShotItem.BacksightAzimuth,
+          ShotItem.BacksightInclination,
         ],
-        backsightOrder: [BacksightItem.Azimuth, BacksightItem.Inclination],
         hasRedundantBacksights: true,
         lrudAssociation: LrudAssociation.ToStation,
         distanceCorrection: Unitize.feet(3),
         frontsightAzimuthCorrection: Unitize.degrees(4),
         frontsightInclinationCorrection: Unitize.degrees(5),
+      })
+    })
+    it('no FORMAT', async (): Promise<void> => {
+      const data = `Gillock's Cave or Devil's Backbone Cave
+SURVEY NAME: 3
+SURVEY DATE: 5 25 2015  COMMENT:The Windmaker and beyond
+SURVEY TEAM:
+Sean Lewis;Andy Edwars;Eric Frederickson;Ian Chechet;Chase Varner
+DECLINATION: 2.00
+
+FROM         TO           LEN     BEAR    INC     LEFT    RIGHT   UP      DOWN    AZM2    INC2    FLAGS COMMENTS
+
+\f
+`
+      expect(await parse(data)).to.deep.equal({
+        cave: `Gillock's Cave or Devil's Backbone Cave`,
+        name: '3',
+        date: new Date('May 25, 2015'),
+        comment: 'The Windmaker and beyond',
+        team:
+          'Sean Lewis;Andy Edwars;Eric Frederickson;Ian Chechet;Chase Varner',
+        declination: Unitize.degrees(2),
+        azimuthUnit: AzimuthUnit.Degrees,
+        distanceUnit: DistanceUnit.DecimalFeet,
+        lrudUnit: DistanceUnit.DecimalFeet,
+        inclinationUnit: InclinationUnit.Degrees,
+        lrudOrder: [LrudItem.Left, LrudItem.Up, LrudItem.Down, LrudItem.Right],
+        shotOrder: [
+          ShotItem.Distance,
+          ShotItem.FrontsightAzimuth,
+          ShotItem.FrontsightInclination,
+        ],
+        hasRedundantBacksights: false,
+        lrudAssociation: LrudAssociation.FromStation,
       })
     })
     it('no CORRECTIONS', async (): Promise<void> => {
@@ -326,12 +363,13 @@ FROM         TO           LEN     BEAR    INC     LEFT    RIGHT   UP      DOWN  
         lrudUnit: DistanceUnit.DecimalFeet,
         inclinationUnit: InclinationUnit.Degrees,
         lrudOrder: [LrudItem.Left, LrudItem.Right, LrudItem.Up, LrudItem.Down],
-        frontsightOrder: [
-          FrontsightItem.Distance,
-          FrontsightItem.Azimuth,
-          FrontsightItem.Inclination,
+        shotOrder: [
+          ShotItem.Distance,
+          ShotItem.FrontsightAzimuth,
+          ShotItem.FrontsightInclination,
+          ShotItem.BacksightAzimuth,
+          ShotItem.BacksightInclination,
         ],
-        backsightOrder: [BacksightItem.Azimuth, BacksightItem.Inclination],
         hasRedundantBacksights: true,
         lrudAssociation: LrudAssociation.ToStation,
       })
@@ -361,12 +399,13 @@ FROM         TO           LEN     BEAR    INC     LEFT    RIGHT   UP      DOWN  
         lrudUnit: DistanceUnit.DecimalFeet,
         inclinationUnit: InclinationUnit.Degrees,
         lrudOrder: [LrudItem.Left, LrudItem.Right, LrudItem.Up, LrudItem.Down],
-        frontsightOrder: [
-          FrontsightItem.Distance,
-          FrontsightItem.Azimuth,
-          FrontsightItem.Inclination,
+        shotOrder: [
+          ShotItem.Distance,
+          ShotItem.FrontsightAzimuth,
+          ShotItem.FrontsightInclination,
+          ShotItem.BacksightAzimuth,
+          ShotItem.BacksightInclination,
         ],
-        backsightOrder: [BacksightItem.Azimuth, BacksightItem.Inclination],
         hasRedundantBacksights: true,
         lrudAssociation: LrudAssociation.ToStation,
       })
@@ -512,6 +551,11 @@ ${value}
             '       A1LRUD           A1    1.00    2.00    3.00    4.00    5.00    6.00    7.00 #|LRXC#'
           )
         ).to.be.rejectedWith('invalid flag')
+      })
+      it('whitespace and | in flags', async function() {
+        parse(
+          '       A1LRUD           A1    1.00    2.00    3.00    4.00    5.00    6.00    7.00 #|C \t|#'
+        )
       })
       it('missing | at start of flags', async function() {
         await expect(

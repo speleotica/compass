@@ -30,7 +30,7 @@ export const flagChars = {
 }
 
 const formatCompassShot = <Inc extends UnitType<Inc> = Angle>({
-  backsightOrder,
+  hasRedundantBacksights,
   inclinationUnit,
 }: CompassTripHeader) => ({
   from,
@@ -66,7 +66,7 @@ const formatCompassShot = <Inc extends UnitType<Inc> = Angle>({
     formatNumber(down, Length.feet, 8),
     formatNumber(right, Length.feet, 8),
   ]
-  if (backsightOrder) {
+  if (hasRedundantBacksights) {
     cols.push(
       formatNumber(backsightAzimuth, Angle.degrees, 8),
       formatNumber(backsightInclination, incUnit, 8)

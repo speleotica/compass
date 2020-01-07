@@ -74,11 +74,22 @@ describe('parseCompassMakFile', () => {
     parseCompassMakFile(
       new SegmentParser(new Segment({ value: data, source: 'test.mak' }))
     )
+  it('errors on invalid directive', () => {
+    const data = `
+    @500000.000,4000000.000,200.000,16,0.000;
+    &WGS 1984;
+
+    ^ blah blah blah
+    `
+    expect(() => parse(data)).to.throw('invalid directive')
+  })
   it('works', () => {
     const data = `
     @500000.000,4000000.000,200.000,16,0.000;
-    &WGS 1984; comment test
-    ; blah blah blah
+    &WGS 1984;
+
+    / blah blah blah
+
     !OT;
     #Fisher Ridge Cave System.dat,
       AE20[M,0.000,0.000,0.000],
@@ -94,6 +105,7 @@ describe('parseCompassMakFile', () => {
           Unitize.degrees(0)
         ),
         directives.datum('WGS 1984'),
+        directives.comment(' blah blah blah'),
         directives.fileParameters(true, LrudAssociation.ToStation),
         directives.datFile('Fisher Ridge Cave System.dat', [
           {

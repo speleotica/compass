@@ -29,6 +29,11 @@ import { parseCompassFileParametersDirective } from './CompassFileParametersDire
 import { parseCompassDatumDirective } from './CompassDatumDirective'
 import { parseCompassUtmConvergenceAngleDirective } from './CompassUtmConvergenceAngleDirective'
 import { parseCompassUtmZoneDirective } from './CompassUtmZoneDirective'
+import {
+  CompassCommentDirective,
+  formatCompassCommentDirective,
+  parseCompassCommentDirective,
+} from './CompassCommentDirective'
 
 export enum CompassMakDirectiveType {
   BaseLocation = '@',
@@ -37,6 +42,7 @@ export enum CompassMakDirectiveType {
   UtmConvergenceAngle = '%',
   UtmZone = '$',
   FileParameters = '!',
+  Comment = '/',
 }
 
 export type CompassMakDirective =
@@ -46,6 +52,7 @@ export type CompassMakDirective =
   | CompassFileParametersDirective
   | CompassUtmConvergenceAngleDirective
   | CompassUtmZoneDirective
+  | CompassCommentDirective
 
 export function formatCompassMakDirective(
   directive: CompassMakDirective
@@ -63,12 +70,15 @@ export function formatCompassMakDirective(
       return formatCompassUtmConvergenceAngleDirective(directive)
     case CompassMakDirectiveType.UtmZone:
       return formatCompassUtmZoneDirective(directive)
+    case CompassMakDirectiveType.Comment:
+      return formatCompassCommentDirective(directive)
   }
 }
 
 export function parseCompassMakDirective(
   parser: SegmentParser
 ): CompassMakDirective {
+  parser.skip(/\s*/gm)
   switch (parser.currentChar()) {
     case CompassMakDirectiveType.BaseLocation:
       return parseCompassBaseLocationDirective(parser)
@@ -82,6 +92,8 @@ export function parseCompassMakDirective(
       return parseCompassUtmConvergenceAngleDirective(parser)
     case CompassMakDirectiveType.UtmZone:
       return parseCompassUtmZoneDirective(parser)
+    case CompassMakDirectiveType.Comment:
+      return parseCompassCommentDirective(parser)
     default:
       throw new SegmentParseError(
         'invalid directive character',

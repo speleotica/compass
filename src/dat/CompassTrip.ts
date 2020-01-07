@@ -16,12 +16,17 @@ export enum FrontsightItem {
   Inclination = 'D',
 }
 
-export enum BacksightItem {
-  Azimuth = 'a',
-  Inclination = 'd',
+export enum ShotItem {
+  Distance = 'L',
+  FrontsightAzimuth = 'A',
+  FrontsightInclination = 'D',
+  BacksightAzimuth = 'a',
+  BacksightInclination = 'd',
 }
-export type FrontsightOrder = [FrontsightItem, FrontsightItem, FrontsightItem]
-export type BacksightOrder = [BacksightItem, BacksightItem]
+
+export type ShotOrder =
+  | [ShotItem, ShotItem, ShotItem]
+  | [ShotItem, ShotItem, ShotItem, ShotItem, ShotItem]
 
 export enum LrudAssociation {
   FromStation = 'F',
@@ -58,8 +63,7 @@ export type CompassTripHeader<Inc extends UnitType<Inc> = Angle> = {
   lrudUnit: DistanceUnit
   inclinationUnit: InclinationUnit
   lrudOrder: LrudOrder
-  frontsightOrder: FrontsightOrder
-  backsightOrder?: BacksightOrder | null
+  shotOrder: ShotOrder
   hasRedundantBacksights?: boolean | null
   lrudAssociation?: LrudAssociation | null
   distanceCorrection?: UnitizedNumber<Length> | null

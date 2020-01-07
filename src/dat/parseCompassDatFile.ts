@@ -5,8 +5,6 @@ import {
   DistanceUnit,
   InclinationUnit,
   LrudItem,
-  FrontsightItem,
-  BacksightItem,
   LrudAssociation,
   CompassShot,
   CompassDatFile,
@@ -14,6 +12,7 @@ import {
 import { SegmentParseError, Segment, SegmentParser } from 'parse-segment'
 import { UnitizedNumber, Angle, Unitize, Length } from '@speleotica/unitized'
 import { flagChars } from './formatCompassShot'
+import { ShotItem } from './CompassTrip'
 
 let offs = 0
 const CAVE_OFFSET = offs++
@@ -179,14 +178,7 @@ const parseInclinationUnit = parseFormatEnum<InclinationUnit>(
   'inclination unit'
 )
 const parseLrudItems = parseFormatEnums<LrudItem>(LrudItem, 'lrud item')
-const parseFrontsightItems = parseFormatEnums<FrontsightItem>(
-  FrontsightItem,
-  'frontsight item'
-)
-const parseBacksightItems = parseFormatEnums<BacksightItem>(
-  BacksightItem,
-  'backsight item'
-)
+const parseShotItems = parseFormatEnums<ShotItem>(ShotItem, 'shot item')
 const parseLrudAssociation = parseFormatEnum<LrudAssociation>(
   LrudAssociation,
   'lrud association'
@@ -208,17 +200,15 @@ export function parseFormat(
     LrudItem,
     LrudItem
   ]
-  tripHeader.frontsightOrder = parseFrontsightItems(parser, 3) as [
-    FrontsightItem,
-    FrontsightItem,
-    FrontsightItem
-  ]
-  if (segment.length >= 15) {
-    tripHeader.backsightOrder = parseBacksightItems(parser, 2) as [
-      BacksightItem,
-      BacksightItem
-    ]
-  }
+  const shotOrder = (tripHeader.shotOrder = parseShotItems(
+    parser,
+    segment.length >= 15 ? 5 : 3
+  ) as any)
+  tripHeader.hasRedundantBacksights =
+    shotOrder.find(
+      (i: ShotItem) =>
+        i === ShotItem.BacksightAzimuth || i === ShotItem.BacksightInclination
+    ) != null
   if (segment.length > 11) {
     tripHeader.hasRedundantBacksights =
       parser
@@ -290,39 +280,58 @@ export async function* parseCompassDatFileBase(
           parser.skip(/\s*/)
           tripHeader.declination = parseAzimuth(parser, 'declination')
           parser.skip(/\s*/)
-          parser.expectIgnoreCase('FORMAT:')
-          parser.skip(/\s*/)
-          parseFormat(parser, tripHeader)
-          parser.skip(/\s*/)
-          if (parser.skip(/CORRECTIONS:/i)) {
+          if (parser.skip(/FORMAT:/i)) {
             parser.skip(/\s*/)
-            tripHeader.distanceCorrection = parseLength(
-              parser,
-              'distance correction'
-            )
+            parseFormat(parser, tripHeader)
             parser.skip(/\s*/)
-            tripHeader.frontsightAzimuthCorrection = parseAzimuth(
-              parser,
-              'azimuth correction'
-            )
-            parser.skip(/\s*/)
-            tripHeader.frontsightInclinationCorrection = parseInclination(
-              parser,
-              'inclination correction'
-            )
-            parser.skip(/\s*/)
-            if (parser.skip(/CORRECTIONS2:/i)) {
+            if (parser.skip(/CORRECTIONS:/i)) {
               parser.skip(/\s*/)
-              tripHeader.backsightAzimuthCorrection = parseAzimuth(
+              tripHeader.distanceCorrection = parseLength(
+                parser,
+                'distance correction'
+              )
+              parser.skip(/\s*/)
+              tripHeader.frontsightAzimuthCorrection = parseAzimuth(
                 parser,
                 'azimuth correction'
               )
               parser.skip(/\s*/)
-              tripHeader.backsightInclinationCorrection = parseInclination(
+              tripHeader.frontsightInclinationCorrection = parseInclination(
                 parser,
                 'inclination correction'
               )
+              parser.skip(/\s*/)
+              if (parser.skip(/CORRECTIONS2:/i)) {
+                parser.skip(/\s*/)
+                tripHeader.backsightAzimuthCorrection = parseAzimuth(
+                  parser,
+                  'azimuth correction'
+                )
+                parser.skip(/\s*/)
+                tripHeader.backsightInclinationCorrection = parseInclination(
+                  parser,
+                  'inclination correction'
+                )
+              }
             }
+          } else {
+            tripHeader.distanceUnit = DistanceUnit.DecimalFeet
+            tripHeader.lrudUnit = DistanceUnit.DecimalFeet
+            tripHeader.azimuthUnit = AzimuthUnit.Degrees
+            tripHeader.inclinationUnit = InclinationUnit.Degrees
+            tripHeader.lrudOrder = [
+              LrudItem.Left,
+              LrudItem.Up,
+              LrudItem.Down,
+              LrudItem.Right,
+            ]
+            tripHeader.shotOrder = [
+              ShotItem.Distance,
+              ShotItem.FrontsightAzimuth,
+              ShotItem.FrontsightInclination,
+            ]
+            tripHeader.hasRedundantBacksights = false
+            tripHeader.lrudAssociation = LrudAssociation.FromStation
           }
           break
         }
@@ -368,7 +377,7 @@ export async function* parseCompassDatFileBase(
     const right = parseLength(parser, 'right')
 
     let backsightAzimuth, backsightInclination
-    if (header.backsightOrder) {
+    if (header.hasRedundantBacksights) {
       parser.skip(/\s*/)
       backsightAzimuth = parseAzimuth(parser, 'backsight azimuth')
       parser.skip(/\s*/)
@@ -411,11 +420,15 @@ export async function* parseCompassDatFileBase(
           case flagChars.excludeFromAllProcessing:
             shot.excludeFromAllProcessing = true
             break
+          case '|':
+            break
           default:
-            throw new SegmentParseError(
-              'invalid flag',
-              lineSegment.charAt(parser.index)
-            )
+            if (/\S/.test(parser.currentChar())) {
+              throw new SegmentParseError(
+                'invalid flag',
+                lineSegment.charAt(parser.index)
+              )
+            }
         }
         parser.index++
       }

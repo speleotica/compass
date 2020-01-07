@@ -6,8 +6,7 @@ import {
   DistanceUnit,
   InclinationUnit,
   LrudItem,
-  FrontsightItem,
-  BacksightItem,
+  ShotItem,
 } from './CompassTrip'
 import formatCompassShot, { flagChars } from './formatCompassShot'
 
@@ -23,10 +22,10 @@ describe('formatCompassShot', () => {
       lrudUnit: DistanceUnit.DecimalFeet,
       inclinationUnit: InclinationUnit.Degrees,
       lrudOrder: [LrudItem.Left, LrudItem.Up, LrudItem.Down, LrudItem.Right],
-      frontsightOrder: [
-        FrontsightItem.Distance,
-        FrontsightItem.Azimuth,
-        FrontsightItem.Inclination,
+      shotOrder: [
+        ShotItem.Distance,
+        ShotItem.FrontsightAzimuth,
+        ShotItem.FrontsightInclination,
       ],
     })({
       from: 'foo',
@@ -52,12 +51,14 @@ describe('formatCompassShot', () => {
       lrudUnit: DistanceUnit.DecimalFeet,
       inclinationUnit: InclinationUnit.Degrees,
       lrudOrder: [LrudItem.Left, LrudItem.Up, LrudItem.Down, LrudItem.Right],
-      frontsightOrder: [
-        FrontsightItem.Distance,
-        FrontsightItem.Azimuth,
-        FrontsightItem.Inclination,
+      shotOrder: [
+        ShotItem.Distance,
+        ShotItem.FrontsightAzimuth,
+        ShotItem.FrontsightInclination,
+        ShotItem.BacksightAzimuth,
+        ShotItem.BacksightInclination,
       ],
-      backsightOrder: [BacksightItem.Azimuth, BacksightItem.Inclination],
+      hasRedundantBacksights: true,
     })({
       from: 'foo',
       to: 'bar',
@@ -84,12 +85,14 @@ describe('formatCompassShot', () => {
       lrudUnit: DistanceUnit.DecimalFeet,
       inclinationUnit: InclinationUnit.DepthGauge,
       lrudOrder: [LrudItem.Left, LrudItem.Up, LrudItem.Down, LrudItem.Right],
-      frontsightOrder: [
-        FrontsightItem.Distance,
-        FrontsightItem.Azimuth,
-        FrontsightItem.Inclination,
+      shotOrder: [
+        ShotItem.Distance,
+        ShotItem.FrontsightAzimuth,
+        ShotItem.FrontsightInclination,
+        ShotItem.BacksightAzimuth,
+        ShotItem.BacksightInclination,
       ],
-      backsightOrder: [BacksightItem.Azimuth, BacksightItem.Inclination],
+      hasRedundantBacksights: true,
     })({
       from: 'foo',
       to: 'bar',
@@ -117,12 +120,14 @@ describe('formatCompassShot', () => {
         lrudUnit: DistanceUnit.DecimalFeet,
         inclinationUnit: InclinationUnit.Degrees,
         lrudOrder: [LrudItem.Left, LrudItem.Up, LrudItem.Down, LrudItem.Right],
-        frontsightOrder: [
-          FrontsightItem.Azimuth,
-          FrontsightItem.Inclination,
-          FrontsightItem.Distance,
+        shotOrder: [
+          ShotItem.FrontsightAzimuth,
+          ShotItem.FrontsightInclination,
+          ShotItem.Distance,
+          ShotItem.BacksightAzimuth,
+          ShotItem.BacksightInclination,
         ],
-        backsightOrder: [BacksightItem.Azimuth, BacksightItem.Inclination],
+        hasRedundantBacksights: true,
       })
     ).to.throw
   })
@@ -139,10 +144,10 @@ describe('formatCompassShot', () => {
       lrudUnit: DistanceUnit.DecimalFeet,
       inclinationUnit: InclinationUnit.Degrees,
       lrudOrder: [LrudItem.Left, LrudItem.Up, LrudItem.Down, LrudItem.Right],
-      frontsightOrder: [
-        FrontsightItem.Distance,
-        FrontsightItem.Azimuth,
-        FrontsightItem.Inclination,
+      shotOrder: [
+        ShotItem.Distance,
+        ShotItem.FrontsightAzimuth,
+        ShotItem.FrontsightInclination,
       ],
     })({
       from: 'foo',
@@ -173,12 +178,14 @@ describe('formatCompassShot', () => {
         lrudUnit: DistanceUnit.DecimalFeet,
         inclinationUnit: InclinationUnit.Degrees,
         lrudOrder: [LrudItem.Left, LrudItem.Up, LrudItem.Down, LrudItem.Right],
-        frontsightOrder: [
-          FrontsightItem.Distance,
-          FrontsightItem.Azimuth,
-          FrontsightItem.Inclination,
+        shotOrder: [
+          ShotItem.Distance,
+          ShotItem.FrontsightAzimuth,
+          ShotItem.FrontsightInclination,
+          ShotItem.BacksightAzimuth,
+          ShotItem.BacksightInclination,
         ],
-        backsightOrder: [BacksightItem.Azimuth, BacksightItem.Inclination],
+        hasRedundantBacksights: true,
       })({
         from: 'foo',
         to: 'bar',
@@ -209,12 +216,14 @@ describe('formatCompassShot', () => {
       lrudUnit: DistanceUnit.DecimalFeet,
       inclinationUnit: InclinationUnit.Degrees,
       lrudOrder: [LrudItem.Left, LrudItem.Up, LrudItem.Down, LrudItem.Right],
-      frontsightOrder: [
-        FrontsightItem.Distance,
-        FrontsightItem.Azimuth,
-        FrontsightItem.Inclination,
+      shotOrder: [
+        ShotItem.Distance,
+        ShotItem.FrontsightAzimuth,
+        ShotItem.FrontsightInclination,
+        ShotItem.BacksightAzimuth,
+        ShotItem.BacksightInclination,
       ],
-      backsightOrder: [BacksightItem.Azimuth, BacksightItem.Inclination],
+      hasRedundantBacksights: true,
     })({
       from: 'foo',
       to: 'bar',
@@ -246,12 +255,14 @@ describe('formatCompassShot', () => {
       lrudUnit: DistanceUnit.DecimalFeet,
       inclinationUnit: InclinationUnit.Degrees,
       lrudOrder: [LrudItem.Left, LrudItem.Up, LrudItem.Down, LrudItem.Right],
-      frontsightOrder: [
-        FrontsightItem.Distance,
-        FrontsightItem.Azimuth,
-        FrontsightItem.Inclination,
+      shotOrder: [
+        ShotItem.Distance,
+        ShotItem.FrontsightAzimuth,
+        ShotItem.FrontsightInclination,
+        ShotItem.BacksightAzimuth,
+        ShotItem.BacksightInclination,
       ],
-      backsightOrder: [BacksightItem.Azimuth, BacksightItem.Inclination],
+      hasRedundantBacksights: true,
     })({
       from: 'foo',
       to: 'bar',

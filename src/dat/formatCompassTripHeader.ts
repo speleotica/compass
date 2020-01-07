@@ -20,8 +20,7 @@ export default function formatCompassTripHeader<
   inclinationUnit,
   lrudUnit,
   lrudOrder,
-  frontsightOrder,
-  backsightOrder,
+  shotOrder,
   hasRedundantBacksights,
   lrudAssociation,
   distanceCorrection,
@@ -37,8 +36,7 @@ export default function formatCompassTripHeader<
     lrudUnit,
     inclinationUnit,
     ...lrudOrder,
-    ...frontsightOrder,
-    ...(backsightOrder || []),
+    ...shotOrder,
   ]
   if (hasRedundantBacksights || lrudAssociation) {
     formatItems.push(
@@ -58,7 +56,7 @@ export default function formatCompassTripHeader<
     'DOWN    ',
     'RIGHT   ',
   ]
-  if (backsightOrder) {
+  if (hasRedundantBacksights) {
     columnHeaders.push('AZM2    ', 'INC2    ')
   }
   const incUnit = (inclinationUnit === InclinationUnit.DepthGauge

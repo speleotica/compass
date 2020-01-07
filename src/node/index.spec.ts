@@ -8,8 +8,7 @@ import {
   DistanceUnit,
   InclinationUnit,
   LrudItem,
-  FrontsightItem,
-  BacksightItem,
+  ShotItem,
 } from '../dat/CompassTrip'
 import { directives, LrudAssociation, CompassMakDirectiveType } from '../mak'
 import { Unitize } from '@speleotica/unitized'
@@ -51,12 +50,14 @@ describe('node API', function() {
             LrudItem.Down,
             LrudItem.Right,
           ],
-          frontsightOrder: [
-            FrontsightItem.Azimuth,
-            FrontsightItem.Inclination,
-            FrontsightItem.Distance,
+          shotOrder: [
+            ShotItem.FrontsightAzimuth,
+            ShotItem.FrontsightInclination,
+            ShotItem.Distance,
+            ShotItem.BacksightAzimuth,
+            ShotItem.BacksightInclination,
           ],
-          backsightOrder: [BacksightItem.Azimuth, BacksightItem.Inclination],
+          hasRedundantBacksights: true,
         },
         shots: [
           {
@@ -100,12 +101,14 @@ describe('node API', function() {
             LrudItem.Down,
             LrudItem.Right,
           ],
-          frontsightOrder: [
-            FrontsightItem.Azimuth,
-            FrontsightItem.Inclination,
-            FrontsightItem.Distance,
+          shotOrder: [
+            ShotItem.FrontsightAzimuth,
+            ShotItem.FrontsightInclination,
+            ShotItem.Distance,
+            ShotItem.BacksightAzimuth,
+            ShotItem.BacksightInclination,
           ],
-          backsightOrder: [BacksightItem.Azimuth, BacksightItem.Inclination],
+          hasRedundantBacksights: true,
         },
         shots: [
           {
@@ -144,7 +147,7 @@ SURVEY NAME: A1-3
 SURVEY DATE: 7 10 1979
 SURVEY TEAM:
 
-DECLINATION: 1.00  FORMAT: DDDDLUDRADLad
+DECLINATION: 1.00  FORMAT: DDDDLUDRADLadBF
 
 FROM         TO           LEN     BEAR    INC     LEFT    UP      DOWN    RIGHT   AZM2    INC2    FLAGS COMMENTS
 
@@ -156,7 +159,7 @@ SURVEY NAME: A3-5
 SURVEY DATE: 8 3 1989
 SURVEY TEAM:
 Dudes
-DECLINATION: 1.00  FORMAT: DDDDLUDRADLad
+DECLINATION: 1.00  FORMAT: DDDDLUDRADLadBF
 
 FROM         TO           LEN     BEAR    INC     LEFT    UP      DOWN    RIGHT   AZM2    INC2    FLAGS COMMENTS
 
