@@ -57,13 +57,13 @@ const convertParseLines = <D>(
 
 export const parseCompassDatFile = convertParseLines(_parseCompassDatFile)
 
-type Progress = {
+export type Progress = {
   message?: string
   completed?: number
   total?: number
 }
 
-interface Task {
+export interface Task {
   onProgress(progress: Progress): any
   canceled: boolean
 }
