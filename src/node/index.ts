@@ -11,6 +11,7 @@ import path from 'path'
 import readline from 'readline'
 import { SegmentParser, Segment } from 'parse-segment'
 import { CompassMakDirectiveType } from '../mak'
+import { PassThrough } from 'stream'
 
 const convertWrite = <D>(
   format: (dat: D, options: { write: (data: string) => any }) => void
@@ -32,10 +33,25 @@ const convertParse = <D>(parse: (parser: SegmentParser) => D) => async (
 
 export const parseCompassMakFile = convertParse(_parseCompassMakFile)
 
+function linesOf(file: string, encoding: string): AsyncIterable<string> {
+  const rl = readline.createInterface(fs.createReadStream(file, encoding))
+  if (rl[Symbol.asyncIterator]) {
+    return rl
+  }
+  const output = new PassThrough({ objectMode: true })
+  rl.on('line', line => {
+    output.write(line)
+  })
+  rl.on('close', () => {
+    output.end()
+  })
+  return output
+}
+
 const convertParseLines = <D>(
   parse: (file: string, lines: AsyncIterable<string>) => D
 ) => async (file: string): Promise<D> => {
-  const lines = readline.createInterface(fs.createReadStream(file, 'ASCII'))
+  const lines = linesOf(file, 'ASCII')
   return await parse(file, lines)
 }
 
@@ -76,9 +92,7 @@ export async function parseCompassMakAndDatFiles(
   }
   let completed = 0
   async function* lines(datFile: string): AsyncIterable<string> {
-    for await (const line of readline.createInterface(
-      fs.createReadStream(datFile, 'ASCII')
-    )) {
+    for await (const line of linesOf(datFile, 'ASCII')) {
       yield line
       if (task.canceled) throw new Error('canceled')
       completed += line.length + 2 // add 2 for \r\n
