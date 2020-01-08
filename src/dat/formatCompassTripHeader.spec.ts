@@ -13,26 +13,6 @@ import {
 import { repeat } from 'lodash'
 
 describe('formatCompassTripHeader', () => {
-  it('validates trip name', () => {
-    expect(() =>
-      formatCompassTripHeader({
-        cave: 'SECRET CAVE',
-        name: ' A',
-        date: new Date('July 10 1979'),
-        declination: Unitize.degrees(1),
-        azimuthUnit: AzimuthUnit.Degrees,
-        distanceUnit: DistanceUnit.DecimalFeet,
-        lrudUnit: DistanceUnit.DecimalFeet,
-        inclinationUnit: InclinationUnit.Degrees,
-        lrudOrder: [LrudItem.Left, LrudItem.Up, LrudItem.Down, LrudItem.Right],
-        shotOrder: [
-          ShotItem.FrontsightAzimuth,
-          ShotItem.FrontsightInclination,
-          ShotItem.Distance,
-        ],
-      })
-    ).to.throw
-  })
   it('minimum format', () => {
     expect(
       formatCompassTripHeader({

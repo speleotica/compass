@@ -4,7 +4,6 @@ import {
   InclinationUnit,
 } from './CompassTrip'
 import { Angle, Length, UnitType, Unitize } from '@speleotica/unitized'
-import { assertValidStationName } from '../isValidStationName'
 
 export default function formatCompassTripHeader<
   Inc extends UnitType<Inc> = Angle
@@ -29,7 +28,6 @@ export default function formatCompassTripHeader<
   backsightAzimuthCorrection,
   backsightInclinationCorrection,
 }: CompassTripHeader<Inc>): string {
-  assertValidStationName(name)
   const formatItems: Array<string> = [
     azimuthUnit,
     distanceUnit,
