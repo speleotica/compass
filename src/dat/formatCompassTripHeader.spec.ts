@@ -42,6 +42,40 @@ FROM         TO           LEN     BEAR    INC     LEFT    UP      DOWN    RIGHT 
 \r
 `)
   })
+  it('includeColumnHeaders: false', () => {
+    expect(
+      formatCompassTripHeader(
+        {
+          cave: 'SECRET CAVE',
+          name: 'A',
+          date: new Date('July 10 1979'),
+          declination: Unitize.degrees(1),
+          azimuthUnit: AzimuthUnit.Degrees,
+          distanceUnit: DistanceUnit.DecimalFeet,
+          lrudUnit: DistanceUnit.DecimalFeet,
+          inclinationUnit: InclinationUnit.Degrees,
+          lrudOrder: [
+            LrudItem.Left,
+            LrudItem.Up,
+            LrudItem.Down,
+            LrudItem.Right,
+          ],
+          shotOrder: [
+            ShotItem.FrontsightAzimuth,
+            ShotItem.FrontsightInclination,
+            ShotItem.Distance,
+          ],
+        },
+        { includeColumnHeaders: false }
+      )
+    ).to.equal(`SECRET CAVE\r
+SURVEY NAME: A\r
+SURVEY DATE: 7 10 1979\r
+SURVEY TEAM:\r
+\r
+DECLINATION: 1.00  FORMAT: DDDDLUDRADL\r
+`)
+  })
   it('maximum format', () => {
     expect(
       formatCompassTripHeader({

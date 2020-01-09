@@ -7,27 +7,30 @@ import { Angle, Length, UnitType, Unitize } from '@speleotica/unitized'
 
 export default function formatCompassTripHeader<
   Inc extends UnitType<Inc> = Angle
->({
-  cave,
-  name,
-  date,
-  comment,
-  team,
-  declination,
-  distanceUnit,
-  azimuthUnit,
-  inclinationUnit,
-  lrudUnit,
-  lrudOrder,
-  shotOrder,
-  hasRedundantBacksights,
-  lrudAssociation,
-  distanceCorrection,
-  frontsightAzimuthCorrection,
-  frontsightInclinationCorrection,
-  backsightAzimuthCorrection,
-  backsightInclinationCorrection,
-}: CompassTripHeader<Inc>): string {
+>(
+  {
+    cave,
+    name,
+    date,
+    comment,
+    team,
+    declination,
+    distanceUnit,
+    azimuthUnit,
+    inclinationUnit,
+    lrudUnit,
+    lrudOrder,
+    shotOrder,
+    hasRedundantBacksights,
+    lrudAssociation,
+    distanceCorrection,
+    frontsightAzimuthCorrection,
+    frontsightInclinationCorrection,
+    backsightAzimuthCorrection,
+    backsightInclinationCorrection,
+  }: CompassTripHeader<Inc>,
+  options: { includeColumnHeaders?: boolean } = {}
+): string {
   const formatItems: Array<string> = [
     azimuthUnit,
     distanceUnit,
@@ -100,8 +103,12 @@ DECLINATION: ${declination.get(Angle.degrees).toFixed(2)}  FORMAT: ${format}${
         }`
       : ''
   }\r
-\r
+${
+    options.includeColumnHeaders !== false
+      ? `\r
 ${columnHeaders.join('')}\r
 \r
 `
+      : ''
+  }`
 }
