@@ -12,13 +12,21 @@ import readline from 'readline'
 import { SegmentParser, Segment } from 'parse-segment'
 import { CompassMakDirectiveType } from '../mak'
 import { PassThrough } from 'stream'
+import * as iconv from 'iconv-lite'
 
 const convertWrite = <D>(
   format: (dat: D, options: { write: (data: string) => any }) => void
 ) => async (file: string, dat: D): Promise<void> => {
-  const out = fs.createWriteStream(file, 'ASCII')
+  const fileOut = fs.createWriteStream(file)
+  const out = iconv.encodeStream('win1252')
+  out.pipe(fileOut)
   format(dat, { write: out.write.bind(out) })
-  await promisify(cb => out.end(cb))()
+  const finished = new Promise((resolve, reject) => {
+    fileOut.once('finish', resolve)
+    fileOut.once('error', reject)
+  })
+  out.end()
+  await finished
 }
 
 export const writeCompassDatFile = convertWrite(formatCompassDatFile)
@@ -27,14 +35,20 @@ export const writeCompassMakFile = convertWrite(formatCompassMakFile)
 const convertParse = <D>(parse: (parser: SegmentParser) => D) => async (
   file: string
 ): Promise<D> => {
-  const data = await promisify<string>(cb => fs.readFile(file, 'ASCII', cb))()
+  const data = iconv.decode(
+    await promisify<Buffer>(cb => fs.readFile(file, cb))(),
+    'win1252'
+  )
   return parse(new SegmentParser(new Segment({ value: data, source: file })))
 }
 
 export const parseCompassMakFile = convertParse(_parseCompassMakFile)
 
 function linesOf(file: string, encoding: string): AsyncIterable<string> {
-  const rl = readline.createInterface(fs.createReadStream(file, encoding))
+  const fileIn = fs.createReadStream(file)
+  const decodedIn = iconv.decodeStream(encoding)
+  fileIn.pipe(decodedIn)
+  const rl = readline.createInterface(decodedIn)
   if (rl[Symbol.asyncIterator]) {
     return rl
   }
@@ -51,7 +65,7 @@ function linesOf(file: string, encoding: string): AsyncIterable<string> {
 const convertParseLines = <D>(
   parse: (file: string, lines: AsyncIterable<string>) => D
 ) => async (file: string): Promise<D> => {
-  const lines = linesOf(file, 'ASCII')
+  const lines = linesOf(file, 'win1252')
   return await parse(file, lines)
 }
 
@@ -92,7 +106,7 @@ export async function parseCompassMakAndDatFiles(
   }
   let completed = 0
   async function* lines(datFile: string): AsyncIterable<string> {
-    for await (const line of linesOf(datFile, 'ASCII')) {
+    for await (const line of linesOf(datFile, 'win1252')) {
       yield line
       if (task.canceled) throw new Error('canceled')
       completed += line.length + 2 // add 2 for \r\n
