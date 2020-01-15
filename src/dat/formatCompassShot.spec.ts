@@ -199,9 +199,7 @@ describe('formatCompassShot', () => {
         [flag]: true,
       })
       expect(actual).to.equal(
-        `          foo          bar    3.28   45.00  -10.00    1.00    2.00 -999.00 -999.00   30.00   -8.00 #|${
-          flagChars[flag]
-        }#\r\n`
+        `          foo          bar    3.28   45.00  -10.00    1.00    2.00 -999.00 -999.00   30.00   -8.00 #|${flagChars[flag]}#\r\n`
       )
     }
   })

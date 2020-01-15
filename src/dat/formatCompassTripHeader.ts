@@ -104,11 +104,11 @@ DECLINATION: ${declination.get(Angle.degrees).toFixed(2)}  FORMAT: ${format}${
       : ''
   }\r
 ${
-    options.includeColumnHeaders !== false
-      ? `\r
+  options.includeColumnHeaders !== false
+    ? `\r
 ${columnHeaders.join('')}\r
 \r
 `
-      : ''
-  }`
+    : ''
+}`
 }
