@@ -8,7 +8,6 @@
 
 Types and I/O methods for Compass Cave Survey data file formats
 
-Right now this package doesn't contain a parser, just a formatter for output.
 I'm not going to go to much trouble to document it here unless people ask,
 the types are pretty self-explanatory:
 

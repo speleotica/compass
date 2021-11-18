@@ -10,12 +10,6 @@ export enum LrudItem {
 
 export type LrudOrder = [LrudItem, LrudItem, LrudItem, LrudItem]
 
-export enum FrontsightItem {
-  Distance = 'L',
-  Azimuth = 'A',
-  Inclination = 'D',
-}
-
 export enum ShotItem {
   Distance = 'L',
   FrontsightAzimuth = 'A',
