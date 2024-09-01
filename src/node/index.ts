@@ -14,33 +14,33 @@ import { CompassMakDirectiveType } from '../mak'
 import { PassThrough } from 'stream'
 import * as iconv from 'iconv-lite'
 
-const convertWrite = <D>(
-  format: (dat: D, options: { write: (data: string) => any }) => void
-) => async (file: string, dat: D): Promise<void> => {
-  const fileOut = fs.createWriteStream(file)
-  const out = iconv.encodeStream('win1252')
-  out.pipe(fileOut)
-  format(dat, { write: out.write.bind(out) })
-  const finished = new Promise((resolve, reject) => {
-    fileOut.once('finish', resolve)
-    fileOut.once('error', reject)
-  })
-  out.end()
-  await finished
-}
+const convertWrite =
+  <D>(format: (dat: D, options: { write: (data: string) => any }) => void) =>
+  async (file: string, dat: D): Promise<void> => {
+    const fileOut = fs.createWriteStream(file)
+    const out = iconv.encodeStream('win1252')
+    out.pipe(fileOut)
+    format(dat, { write: out.write.bind(out) })
+    const finished = new Promise((resolve, reject) => {
+      fileOut.once('finish', resolve)
+      fileOut.once('error', reject)
+    })
+    out.end()
+    await finished
+  }
 
 export const writeCompassDatFile = convertWrite(formatCompassDatFile)
 export const writeCompassMakFile = convertWrite(formatCompassMakFile)
 
-const convertParse = <D>(parse: (parser: SegmentParser) => D) => async (
-  file: string
-): Promise<D> => {
-  const data = iconv.decode(
-    await promisify<Buffer>(cb => fs.readFile(file, cb))(),
-    'win1252'
-  )
-  return parse(new SegmentParser(new Segment({ value: data, source: file })))
-}
+const convertParse =
+  <D>(parse: (parser: SegmentParser) => D) =>
+  async (file: string): Promise<D> => {
+    const data = iconv.decode(
+      await promisify<Buffer>((cb) => fs.readFile(file, cb))(),
+      'win1252'
+    )
+    return parse(new SegmentParser(new Segment({ value: data, source: file })))
+  }
 
 export const parseCompassMakFile = convertParse(_parseCompassMakFile)
 
@@ -53,7 +53,7 @@ function linesOf(file: string, encoding: string): AsyncIterable<string> {
     return rl
   }
   const output = new PassThrough({ objectMode: true })
-  rl.on('line', line => {
+  rl.on('line', (line) => {
     output.write(line)
   })
   rl.on('close', () => {
@@ -62,12 +62,12 @@ function linesOf(file: string, encoding: string): AsyncIterable<string> {
   return output
 }
 
-const convertParseLines = <D>(
-  parse: (file: string, lines: AsyncIterable<string>) => D
-) => async (file: string): Promise<D> => {
-  const lines = linesOf(file, 'win1252')
-  return await parse(file, lines)
-}
+const convertParseLines =
+  <D>(parse: (file: string, lines: AsyncIterable<string>) => D) =>
+  async (file: string): Promise<D> => {
+    const lines = linesOf(file, 'win1252')
+    return await parse(file, lines)
+  }
 
 export const parseCompassDatFile = convertParseLines(_parseCompassDatFile)
 
@@ -100,7 +100,7 @@ export async function parseCompassMakAndDatFiles(
   for (const directive of mak.directives) {
     if (directive.type === CompassMakDirectiveType.DatFile) {
       const datFile = path.resolve(path.dirname(makFile), directive.file)
-      const stats = await promisify<fs.Stats>(cb => fs.stat(datFile, cb))()
+      const stats = await promisify<fs.Stats>((cb) => fs.stat(datFile, cb))()
       total += stats.size
     }
   }

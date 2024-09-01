@@ -24,15 +24,15 @@ import { formatCompassDatFile } from '../dat'
 
 const testFile = path.resolve(__dirname, 'testout')
 
-describe('node API', function() {
-  afterEach(function() {
+describe('node API', function () {
+  afterEach(function () {
     try {
       fs.unlinkSync(testFile)
     } catch (error) {
       // ignore
     }
   })
-  it('writeCompassDatFile', async function() {
+  it('writeCompassDatFile', async function () {
     const trips: Array<CompassTrip> = [
       {
         header: {
@@ -169,7 +169,7 @@ FROM         TO           LEN     BEAR    INC     LEFT    UP      DOWN    RIGHT 
 `.replace(/\n/gm, '\r\n')
     )
   })
-  it('writeCompassMakFile', async function() {
+  it('writeCompassMakFile', async function () {
     await writeCompassMakFile(testFile, {
       directives: [
         directives.baseLocation(
@@ -224,7 +224,7 @@ FROM         TO           LEN     BEAR    INC     LEFT    UP      DOWN    RIGHT 
       ].join('\r\n') + '\r\n'
     )
   })
-  it('parseCompassMakFile', async function() {
+  it('parseCompassMakFile', async function () {
     expect(
       await parseCompassMakFile(path.resolve(__dirname, 'test.mak'))
     ).to.deep.equal({
@@ -259,14 +259,14 @@ FROM         TO           LEN     BEAR    INC     LEFT    UP      DOWN    RIGHT 
       ],
     })
   })
-  it('parseCompassDatFile/formatCompassDatFile round trip', async function() {
+  it('parseCompassDatFile/formatCompassDatFile round trip', async function () {
     const file = path.resolve(__dirname, 'gillocks.dat')
-    const raw = await promisify(cb => fs.readFile(file, 'ASCII', cb))()
+    const raw = await promisify((cb) => fs.readFile(file, 'ASCII', cb))()
     const data = await parseCompassDatFile(file)
     expect(formatCompassDatFile(data)).to.equal(raw)
   })
   describe('parseCompassDatAndMakFiles', () => {
-    it('works', async function() {
+    it('works', async function () {
       const file = path.resolve(__dirname, 'gillocks.mak')
       const data = await parseCompassMakAndDatFiles(file)
       for (const directive of data.directives) {
@@ -275,7 +275,7 @@ FROM         TO           LEN     BEAR    INC     LEFT    UP      DOWN    RIGHT 
         }
       }
     })
-    it('cancelation', async function() {
+    it('cancelation', async function () {
       const file = path.resolve(__dirname, 'gillocks.mak')
       await expect(
         parseCompassMakAndDatFiles(file, {

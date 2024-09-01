@@ -5,7 +5,7 @@ export default function isValidStationName(name: string): boolean {
 export function assertValidStationName(name: string): void {
   if (!isValidStationName(name)) {
     throw new Error(
-      `Invalid station name: ${name.replace(/./g, s =>
+      `Invalid station name: ${name.replace(/./g, (s) =>
         s < '\x20' || s > '\x7f' ? `\\x${s.charCodeAt(0).toString(16)}` : s
       )}}`
     )

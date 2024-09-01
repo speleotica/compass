@@ -11,8 +11,8 @@ import { Segment, SegmentParser } from 'parse-segment'
 import { Unitize } from '@speleotica/unitized'
 import * as directives from './directives'
 
-describe('formatCompassDatFileDirective', function() {
-  it('validates station names', function() {
+describe('formatCompassDatFileDirective', function () {
+  it('validates station names', function () {
     expect(() =>
       formatCompassDatFileDirective(datFile('foo.dat', [{ station: 'A 1' }]))
     ).to.throw
@@ -29,7 +29,7 @@ const parse = (value: string): CompassDatFileDirective =>
     )
   )
 
-describe('parseCompassDatFileDirective', function() {
+describe('parseCompassDatFileDirective', function () {
   it('works', () => {
     expect(parse(`foo.dat,A1,A2[M,2,3,4],A3[F,5,6,7];`)).to.deep.equal(
       directives.datFile('foo.dat', [

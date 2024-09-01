@@ -19,7 +19,7 @@ const parse = (value: string): CompassFileParametersDirective =>
     )
   )
 
-describe('parseCompassFileParametersDirective', function() {
+describe('parseCompassFileParametersDirective', function () {
   it('works', () => {
     expect(parse(`ot;`)).to.deep.equal(
       directives.fileParameters(false, LrudAssociation.FromStation)

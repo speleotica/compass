@@ -60,9 +60,9 @@ export default function formatCompassTripHeader<
   if (hasRedundantBacksights) {
     columnHeaders.push('AZM2    ', 'INC2    ')
   }
-  const incUnit = (inclinationUnit === InclinationUnit.DepthGauge
-    ? Length.feet
-    : Angle.degrees) as any
+  const incUnit = (
+    inclinationUnit === InclinationUnit.DepthGauge ? Length.feet : Angle.degrees
+  ) as any
   columnHeaders.push('FLAGS ', 'COMMENTS')
   const corrections =
     distanceCorrection ||
@@ -77,7 +77,7 @@ export default function formatCompassTripHeader<
           (frontsightInclinationCorrection || Unitize.degrees(0)).get(incUnit),
           (distanceCorrection || Unitize.feet(0)).get(Length.feet),
         ]
-          .map(n => n.toFixed(2))
+          .map((n) => n.toFixed(2))
           .join(' ')
       : null
   const corrections2 =
@@ -86,7 +86,7 @@ export default function formatCompassTripHeader<
           (backsightAzimuthCorrection || Unitize.degrees(0)).get(Angle.degrees),
           (backsightInclinationCorrection || Unitize.degrees(0)).get(incUnit),
         ]
-          .map(n => n.toFixed(2))
+          .map((n) => n.toFixed(2))
           .join(' ')
       : ''
   return `${cave.substring(0, 80)}\r

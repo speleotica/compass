@@ -18,7 +18,7 @@ const parse = (value: string): CompassCommentDirective =>
     )
   )
 
-describe('parseCompassCommentDirective', function() {
+describe('parseCompassCommentDirective', function () {
   it('works', () => {
     expect(parse(` blah blah blah`)).to.deep.equal(
       directives.comment(' blah blah blah')

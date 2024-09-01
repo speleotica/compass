@@ -18,7 +18,7 @@ const parse = (value: string): CompassUtmZoneDirective =>
     )
   )
 
-describe('parseCompassUtmZoneDirective', function() {
+describe('parseCompassUtmZoneDirective', function () {
   it('works', () => {
     expect(parse(`13;`)).to.deep.equal(directives.utmZone(13))
   })

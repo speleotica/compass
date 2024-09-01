@@ -10,8 +10,8 @@ import { LrudAssociation } from './CompassFileParametersDirective'
 import * as directives from './directives'
 import { SegmentParser, Segment } from 'parse-segment'
 
-describe('formatCompassMakFile', function() {
-  it('works', function() {
+describe('formatCompassMakFile', function () {
+  it('works', function () {
     expect(
       formatCompassMakFile({
         directives: [

@@ -20,7 +20,7 @@ export default function formatCompassDatFile<Inc extends UnitType<Inc> = Angle>(
     for (const { header, shots } of dat.trips) {
       options.write(formatCompassTripHeader(header))
       const formatShot = formatCompassShot(header)
-      shots.forEach(shot => options.write(formatShot(shot)))
+      shots.forEach((shot) => options.write(formatShot(shot)))
       options.write('\f\r\n')
     }
   } else {

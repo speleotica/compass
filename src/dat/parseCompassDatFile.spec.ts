@@ -207,9 +207,7 @@ describe('parseCompassDatFile', () => {
       return (await parseCompassDatFile('test.dat', linesOf(value))).trips[0]
         .header
     }
-    it('unexpected form feed before end of trip header', async (): Promise<
-      void
-    > => {
+    it('unexpected form feed before end of trip header', async (): Promise<void> => {
       const data = `Gillock's Cave or Devil's Backbone Cave
 SURVEY NAME: 3
 SURVEY DATE: 5 25 2015  COMMENT:The Windmaker and beyond
@@ -241,8 +239,7 @@ FROM         TO           LEN     BEAR    INC     LEFT    RIGHT   UP      DOWN  
         name: '3',
         date: new Date('May 25, 2015'),
         comment: 'The Windmaker and beyond',
-        team:
-          'Sean Lewis;Andy Edwars;Eric Frederickson;Ian Chechet;Chase Varner',
+        team: 'Sean Lewis;Andy Edwars;Eric Frederickson;Ian Chechet;Chase Varner',
         declination: Unitize.degrees(2),
         azimuthUnit: AzimuthUnit.Degrees,
         distanceUnit: DistanceUnit.DecimalFeet,
@@ -282,8 +279,7 @@ FROM         TO           LEN     BEAR    INC     LEFT    RIGHT   UP      DOWN  
         name: '3',
         date: new Date('May 25, 2015'),
         comment: 'The Windmaker and beyond',
-        team:
-          'Sean Lewis;Andy Edwars;Eric Frederickson;Ian Chechet;Chase Varner',
+        team: 'Sean Lewis;Andy Edwars;Eric Frederickson;Ian Chechet;Chase Varner',
         declination: Unitize.degrees(2),
         azimuthUnit: AzimuthUnit.Degrees,
         distanceUnit: DistanceUnit.DecimalFeet,
@@ -321,8 +317,7 @@ FROM         TO           LEN     BEAR    INC     LEFT    RIGHT   UP      DOWN  
         name: '3',
         date: new Date('May 25, 2015'),
         comment: 'The Windmaker and beyond',
-        team:
-          'Sean Lewis;Andy Edwars;Eric Frederickson;Ian Chechet;Chase Varner',
+        team: 'Sean Lewis;Andy Edwars;Eric Frederickson;Ian Chechet;Chase Varner',
         declination: Unitize.degrees(2),
         azimuthUnit: AzimuthUnit.Degrees,
         distanceUnit: DistanceUnit.DecimalFeet,
@@ -355,8 +350,7 @@ FROM         TO           LEN     BEAR    INC     LEFT    RIGHT   UP      DOWN  
         name: '3',
         date: new Date('May 25, 2015'),
         comment: 'The Windmaker and beyond',
-        team:
-          'Sean Lewis;Andy Edwars;Eric Frederickson;Ian Chechet;Chase Varner',
+        team: 'Sean Lewis;Andy Edwars;Eric Frederickson;Ian Chechet;Chase Varner',
         declination: Unitize.degrees(2),
         azimuthUnit: AzimuthUnit.Degrees,
         distanceUnit: DistanceUnit.DecimalFeet,
@@ -391,8 +385,7 @@ FROM         TO           LEN     BEAR    INC     LEFT    RIGHT   UP      DOWN  
         name: '3',
         date: new Date('May 25, 2015'),
         comment: null,
-        team:
-          'Sean Lewis;Andy Edwars;Eric Frederickson;Ian Chechet;Chase Varner',
+        team: 'Sean Lewis;Andy Edwars;Eric Frederickson;Ian Chechet;Chase Varner',
         declination: Unitize.degrees(2),
         azimuthUnit: AzimuthUnit.Degrees,
         distanceUnit: DistanceUnit.DecimalFeet,
@@ -430,58 +423,58 @@ ${value}
           .shots[0]
       }
 
-      it('empty line', async function() {
+      it('empty line', async function () {
         expect(await parse('  ')).to.equal(undefined)
       })
 
-      it('missing to station', async function() {
+      it('missing to station', async function () {
         await expect(parse('  A1')).to.be.rejectedWith('missing to station')
       })
-      it('missing distance', async function() {
+      it('missing distance', async function () {
         await expect(parse('       A1LRUD           A1')).to.be.rejectedWith(
           'missing distance'
         )
       })
-      it('null distance', async function() {
+      it('null distance', async function () {
         await expect(
           parse('       A1LRUD           A1  -999.00')
         ).to.be.rejectedWith('distance is required')
       })
-      it('missing frontsight azimuth', async function() {
+      it('missing frontsight azimuth', async function () {
         await expect(
           parse('       A1LRUD           A1    1.00')
         ).to.be.rejectedWith('missing frontsight azimuth')
       })
-      it('missing frontsight inclination', async function() {
+      it('missing frontsight inclination', async function () {
         await expect(
           parse('       A1LRUD           A1    1.00    2.00')
         ).to.be.rejectedWith('missing frontsight inclination')
       })
-      it('missing left', async function() {
+      it('missing left', async function () {
         await expect(
           parse('       A1LRUD           A1    1.00    2.00    3.00')
         ).to.be.rejectedWith('missing left')
       })
-      it('missing up', async function() {
+      it('missing up', async function () {
         await expect(
           parse('       A1LRUD           A1    1.00    2.00    3.00    4.00')
         ).to.be.rejectedWith('missing up')
       })
-      it('missing down', async function() {
+      it('missing down', async function () {
         await expect(
           parse(
             '       A1LRUD           A1    1.00    2.00    3.00    4.00    5.00'
           )
         ).to.be.rejectedWith('missing down')
       })
-      it('missing right', async function() {
+      it('missing right', async function () {
         await expect(
           parse(
             '       A1LRUD           A1    1.00    2.00    3.00    4.00    5.00    6.00'
           )
         ).to.be.rejectedWith('missing right')
       })
-      it('comment after flag', async function() {
+      it('comment after flag', async function () {
         expect(
           await parse(
             '       A1LRUD           A1    1.00    2.00    3.00    4.00    5.00    6.00    7.00 #|L# Foobar'
@@ -502,7 +495,7 @@ ${value}
           comment: 'Foobar',
         })
       })
-      it('comment without flag', async function() {
+      it('comment without flag', async function () {
         expect(
           await parse(
             '       A1LRUD           A1    1.00    2.00    3.00    4.00    5.00    6.00    7.00 Foobar'
@@ -522,7 +515,7 @@ ${value}
           comment: 'Foobar',
         })
       })
-      it('all flags', async function() {
+      it('all flags', async function () {
         expect(
           await parse(
             '       A1LRUD           A1    1.00    2.00    3.00    4.00    5.00    6.00    7.00 #|LPXC#'
@@ -545,26 +538,26 @@ ${value}
           doNotAdjust: true,
         })
       })
-      it('invalid flags', async function() {
+      it('invalid flags', async function () {
         await expect(
           parse(
             '       A1LRUD           A1    1.00    2.00    3.00    4.00    5.00    6.00    7.00 #|LRXC#'
           )
         ).to.be.rejectedWith('invalid flag')
       })
-      it('whitespace and | in flags', async function() {
+      it('whitespace and | in flags', async function () {
         parse(
           '       A1LRUD           A1    1.00    2.00    3.00    4.00    5.00    6.00    7.00 #|C \t|#'
         )
       })
-      it('missing | at start of flags', async function() {
+      it('missing | at start of flags', async function () {
         await expect(
           parse(
             '       A1LRUD           A1    1.00    2.00    3.00    4.00    5.00    6.00    7.00 #LC'
           )
         ).to.be.rejectedWith('expected |')
       })
-      it('missing # after flags', async function() {
+      it('missing # after flags', async function () {
         await expect(
           parse(
             '       A1LRUD           A1    1.00    2.00    3.00    4.00    5.00    6.00    7.00 #|LC'
@@ -590,61 +583,61 @@ ${value}
           .shots[0]
       }
 
-      it('missing to station', async function() {
+      it('missing to station', async function () {
         await expect(parse('  A1')).to.be.rejectedWith('missing to station')
       })
-      it('missing distance', async function() {
+      it('missing distance', async function () {
         await expect(parse('       A1LRUD           A1')).to.be.rejectedWith(
           'missing distance'
         )
       })
-      it('null distance', async function() {
+      it('null distance', async function () {
         await expect(
           parse('       A1LRUD           A1  -999.00')
         ).to.be.rejectedWith('distance is required')
       })
-      it('missing frontsight azimuth', async function() {
+      it('missing frontsight azimuth', async function () {
         await expect(
           parse('       A1LRUD           A1    1.00')
         ).to.be.rejectedWith('missing frontsight azimuth')
       })
-      it('missing frontsight inclination', async function() {
+      it('missing frontsight inclination', async function () {
         await expect(
           parse('       A1LRUD           A1    1.00    2.00')
         ).to.be.rejectedWith('missing frontsight inclination')
       })
-      it('missing left', async function() {
+      it('missing left', async function () {
         await expect(
           parse('       A1LRUD           A1    1.00    2.00    3.00')
         ).to.be.rejectedWith('missing left')
       })
-      it('missing up', async function() {
+      it('missing up', async function () {
         await expect(
           parse('       A1LRUD           A1    1.00    2.00    3.00    4.00')
         ).to.be.rejectedWith('missing up')
       })
-      it('missing down', async function() {
+      it('missing down', async function () {
         await expect(
           parse(
             '       A1LRUD           A1    1.00    2.00    3.00    4.00    5.00'
           )
         ).to.be.rejectedWith('missing down')
       })
-      it('missing right', async function() {
+      it('missing right', async function () {
         await expect(
           parse(
             '       A1LRUD           A1    1.00    2.00    3.00    4.00    5.00    6.00'
           )
         ).to.be.rejectedWith('missing right')
       })
-      it('missing backsight azimuth', async function() {
+      it('missing backsight azimuth', async function () {
         await expect(
           parse(
             '       A1LRUD           A1    1.00    2.00    3.00    4.00    5.00    6.00    7.00'
           )
         ).to.be.rejectedWith('missing backsight azimuth')
       })
-      it('missing backsight inclination', async function() {
+      it('missing backsight inclination', async function () {
         await expect(
           parse(
             '       A1LRUD           A1    1.00    2.00    3.00    4.00    5.00    6.00    7.00    8.00    '
@@ -652,7 +645,7 @@ ${value}
         ).to.be.rejectedWith('missing backsight inclination')
       })
 
-      it('comment after flag', async function() {
+      it('comment after flag', async function () {
         expect(
           await parse(
             '       A1LRUD           A1    1.00    2.00    3.00    4.00    5.00    6.00    7.00    8.00    9.00 #|L# Foobar'
@@ -673,7 +666,7 @@ ${value}
           comment: 'Foobar',
         })
       })
-      it('comment without flag', async function() {
+      it('comment without flag', async function () {
         expect(
           await parse(
             '       A1LRUD           A1    1.00    2.00    3.00    4.00    5.00    6.00    7.00    8.00    9.00 Foobar'
@@ -693,7 +686,7 @@ ${value}
           comment: 'Foobar',
         })
       })
-      it('all flags', async function() {
+      it('all flags', async function () {
         expect(
           await parse(
             '       A1LRUD           A1    1.00    2.00    3.00    4.00    5.00    6.00    7.00    8.00    9.00 #|LPXC#'
@@ -716,7 +709,7 @@ ${value}
           doNotAdjust: true,
         })
       })
-      it('invalid flags', async function() {
+      it('invalid flags', async function () {
         await expect(
           parse(
             '       A1LRUD           A1    1.00    2.00    3.00    4.00    5.00    6.00    7.00    8.00    9.00 #|LRXC#'

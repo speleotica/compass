@@ -19,7 +19,7 @@ const parse = (value: string): CompassUtmConvergenceAngleDirective =>
     )
   )
 
-describe('parseCompassUtmConvergenceAngleDirective', function() {
+describe('parseCompassUtmConvergenceAngleDirective', function () {
   it('works', () => {
     expect(parse(`2.34;`)).to.deep.equal(
       directives.utmConvergenceAngle(Unitize.degrees(2.34))

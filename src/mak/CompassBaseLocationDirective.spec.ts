@@ -19,7 +19,7 @@ const parse = (value: string): CompassBaseLocationDirective =>
     )
   )
 
-describe('parseCompassBaseLocationDirective', function() {
+describe('parseCompassBaseLocationDirective', function () {
   it('works', () => {
     expect(parse(`2.34,-5.36, 8.5 ,16, 2.30;`)).to.deep.equal(
       directives.baseLocation(

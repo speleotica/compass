@@ -18,7 +18,7 @@ const parse = (value: string): CompassDatumDirective =>
     )
   )
 
-describe('parseCompassDatumDirective', function() {
+describe('parseCompassDatumDirective', function () {
   it('works', () => {
     expect(parse(` WGS 1984 ;`)).to.deep.equal(directives.datum('WGS 1984'))
   })

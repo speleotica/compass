@@ -29,65 +29,69 @@ export const flagChars = {
   doNotAdjust: 'C',
 }
 
-const formatCompassShot = <Inc extends UnitType<Inc> = Angle>({
-  hasRedundantBacksights,
-  inclinationUnit,
-}: CompassTripHeader) => ({
-  from,
-  to,
-  distance,
-  frontsightAzimuth,
-  frontsightInclination,
-  backsightAzimuth,
-  backsightInclination,
-  left,
-  right,
-  up,
-  down,
-  excludeDistance,
-  excludeFromPlotting,
-  excludeFromAllProcessing,
-  doNotAdjust,
-  comment,
-}: CompassShot<Inc>): string => {
-  assertValidStationName(from)
-  assertValidStationName(to)
-  const incUnit = (inclinationUnit === InclinationUnit.DepthGauge
-    ? Length.feet
-    : Angle.degrees) as any
-  const cols = [
-    cell(from, 13),
-    cell(to, 13),
-    formatNumber(distance, Length.feet, 8),
-    formatNumber(frontsightAzimuth, Angle.degrees, 8),
-    formatNumber(frontsightInclination, incUnit, 8),
-    formatNumber(left, Length.feet, 8),
-    formatNumber(up, Length.feet, 8),
-    formatNumber(down, Length.feet, 8),
-    formatNumber(right, Length.feet, 8),
-  ]
-  if (hasRedundantBacksights) {
-    cols.push(
-      formatNumber(backsightAzimuth, Angle.degrees, 8),
-      formatNumber(backsightInclination, incUnit, 8)
-    )
+const formatCompassShot =
+  <Inc extends UnitType<Inc> = Angle>({
+    hasRedundantBacksights,
+    inclinationUnit,
+  }: CompassTripHeader) =>
+  ({
+    from,
+    to,
+    distance,
+    frontsightAzimuth,
+    frontsightInclination,
+    backsightAzimuth,
+    backsightInclination,
+    left,
+    right,
+    up,
+    down,
+    excludeDistance,
+    excludeFromPlotting,
+    excludeFromAllProcessing,
+    doNotAdjust,
+    comment,
+  }: CompassShot<Inc>): string => {
+    assertValidStationName(from)
+    assertValidStationName(to)
+    const incUnit = (
+      inclinationUnit === InclinationUnit.DepthGauge
+        ? Length.feet
+        : Angle.degrees
+    ) as any
+    const cols = [
+      cell(from, 13),
+      cell(to, 13),
+      formatNumber(distance, Length.feet, 8),
+      formatNumber(frontsightAzimuth, Angle.degrees, 8),
+      formatNumber(frontsightInclination, incUnit, 8),
+      formatNumber(left, Length.feet, 8),
+      formatNumber(up, Length.feet, 8),
+      formatNumber(down, Length.feet, 8),
+      formatNumber(right, Length.feet, 8),
+    ]
+    if (hasRedundantBacksights) {
+      cols.push(
+        formatNumber(backsightAzimuth, Angle.degrees, 8),
+        formatNumber(backsightInclination, incUnit, 8)
+      )
+    }
+    let flags = ''
+    if (excludeDistance) flags += flagChars.excludeDistance
+    if (excludeFromPlotting) flags += flagChars.excludeFromPlotting
+    if (excludeFromAllProcessing) flags += flagChars.excludeFromAllProcessing
+    if (doNotAdjust) flags += flagChars.doNotAdjust
+    if (flags) cols.push(` #|${flags}#`)
+    if (comment)
+      cols.push(
+        ' ' +
+          comment
+            .replace(/\r\n?|\n/gm, ' ')
+            .trim()
+            .slice(0, 80)
+      )
+    cols.push('\r\n')
+    return cols.join('')
   }
-  let flags = ''
-  if (excludeDistance) flags += flagChars.excludeDistance
-  if (excludeFromPlotting) flags += flagChars.excludeFromPlotting
-  if (excludeFromAllProcessing) flags += flagChars.excludeFromAllProcessing
-  if (doNotAdjust) flags += flagChars.doNotAdjust
-  if (flags) cols.push(` #|${flags}#`)
-  if (comment)
-    cols.push(
-      ' ' +
-        comment
-          .replace(/\r\n?|\n/gm, ' ')
-          .trim()
-          .slice(0, 80)
-    )
-  cols.push('\r\n')
-  return cols.join('')
-}
 
 export default formatCompassShot
