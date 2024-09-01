@@ -65,7 +65,7 @@ describe('parseCompassDatFile', () => {
     })
   })
   describe('parseLength', () => {
-    const parse = (value: string): UnitizedNumber<Length> =>
+    const parse = (value: string): UnitizedNumber<Length> | undefined =>
       parseLength(
         new SegmentParser(new Segment({ value, source: 'test.dat' })),
         'length'
@@ -85,7 +85,7 @@ describe('parseCompassDatFile', () => {
     })
   })
   describe('parseAzimuth', () => {
-    const parse = (value: string): UnitizedNumber<Angle> =>
+    const parse = (value: string): UnitizedNumber<Angle> | undefined =>
       parseAzimuth(
         new SegmentParser(new Segment({ value, source: 'test.dat' })),
         'azimuth'
@@ -107,7 +107,7 @@ describe('parseCompassDatFile', () => {
     })
   })
   describe('parseInclination', () => {
-    const parse = (value: string): UnitizedNumber<Angle> =>
+    const parse = (value: string): UnitizedNumber<Angle> | undefined =>
       parseInclination(
         new SegmentParser(new Segment({ value, source: 'test.dat' })),
         'inclination'

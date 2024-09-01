@@ -167,7 +167,7 @@ describe('formatCompassShot', () => {
     )
   })
   it('flags', () => {
-    for (const flag in flagChars) {
+    for (const flag of Object.keys(flagChars) as (keyof typeof flagChars)[]) {
       const actual = formatCompassShot({
         cave: 'SECRET CAVE',
         name: 'A',

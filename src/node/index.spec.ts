@@ -271,7 +271,7 @@ FROM         TO           LEN     BEAR    INC     LEFT    UP      DOWN    RIGHT 
       const data = await parseCompassMakAndDatFiles(file)
       for (const directive of data.directives) {
         if (directive.type === CompassMakDirectiveType.DatFile) {
-          expect(directive.data.trips).to.have.lengthOf(3)
+          expect(directive.data?.trips).to.have.lengthOf(3)
         }
       }
     })
